@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Bot, Save, Check, RefreshCw, Palette, HelpCircle, Sliders } from "lucide-react";
+import { getImageUrl } from "@/lib/imageHelper";
 
 interface WidgetSettings {
   botName: string;
@@ -581,7 +582,7 @@ export default function ThemeBuilderTab({ botId }: { botId: string }) {
                   </div>
                   {avatarUrl && !avatarUrl.startsWith("<svg") && (
                     <div className="flex flex-col items-center gap-1.5 shrink-0 border border-slate-150 dark:border-slate-800 p-2 rounded-xl bg-white dark:bg-slate-900 shadow-sm">
-                      <img src={avatarUrl} alt="Uploaded Avatar" className="h-10 w-10 rounded-full object-cover border border-slate-100" />
+                      <img src={getImageUrl(avatarUrl)} alt="Uploaded Avatar" className="h-10 w-10 rounded-full object-cover border border-slate-100" />
                       <button
                         type="button"
                         onClick={() => setAvatarUrl("")}
@@ -701,7 +702,7 @@ export default function ThemeBuilderTab({ botId }: { botId: string }) {
                   </div>
                   {launcherIcon && !launcherIcon.startsWith("<svg") && (
                     <div className="flex flex-col items-center gap-1.5 shrink-0 border border-slate-150 dark:border-slate-800 p-2 rounded-xl bg-white dark:bg-slate-900 shadow-sm">
-                      <img src={launcherIcon} alt="Uploaded Launcher" className="h-10 w-10 rounded-lg object-contain border border-slate-100" />
+                      <img src={getImageUrl(launcherIcon)} alt="Uploaded Launcher" className="h-10 w-10 rounded-lg object-contain border border-slate-100" />
                       <button
                         type="button"
                         onClick={() => setLauncherIcon("")}
@@ -867,7 +868,7 @@ export default function ThemeBuilderTab({ botId }: { botId: string }) {
                     dangerouslySetInnerHTML={{ __html: avatarUrl }}
                   />
                 ) : (
-                  <img src={avatarUrl} alt="Preview Avatar" className="h-8 w-8 rounded-full object-cover" />
+                  <img src={getImageUrl(avatarUrl)} alt="Preview Avatar" className="h-8 w-8 rounded-full object-cover" />
                 )
               ) : (
                 <div className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">
@@ -894,7 +895,7 @@ export default function ThemeBuilderTab({ botId }: { botId: string }) {
                       dangerouslySetInnerHTML={{ __html: avatarUrl }}
                     />
                   ) : (
-                    <img src={avatarUrl} alt="Bot Avatar" className="h-full w-full object-cover" />
+                    <img src={getImageUrl(avatarUrl)} alt="Bot Avatar" className="h-full w-full object-cover" />
                   )
                 ) : (
                   "B"
@@ -1034,7 +1035,7 @@ export default function ThemeBuilderTab({ botId }: { botId: string }) {
                     />
                   ) : (
                     <img 
-                      src={launcherIcon} 
+                      src={getImageUrl(launcherIcon)} 
                       alt="Launcher Icon" 
                       style={{
                         height: previewIconSize,

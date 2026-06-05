@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { Send, User, Bot, AlertCircle, RotateCcw } from "lucide-react";
+import { getImageUrl } from "@/lib/imageHelper";
 
 interface WidgetSettings {
   botName: string;
@@ -429,7 +430,7 @@ export default function WidgetChatPage() {
                     />
                   ) : (
                     <img
-                      src={settings.avatarUrl}
+                      src={getImageUrl(settings.avatarUrl)}
                       alt="Bot Avatar"
                       className="h-10 w-10 rounded-full object-cover border border-white/20 shrink-0"
                     />
@@ -584,7 +585,7 @@ export default function WidgetChatPage() {
                     />
                   ) : (
                     <img
-                      src={settings.avatarUrl}
+                      src={getImageUrl(settings.avatarUrl)}
                       alt="Bot Avatar"
                       className="h-10 w-10 rounded-full object-cover border border-white/20 shrink-0"
                     />
@@ -635,7 +636,7 @@ export default function WidgetChatPage() {
                                 dangerouslySetInnerHTML={{ __html: settings.avatarUrl }}
                               />
                             ) : (
-                              <img src={settings.avatarUrl} alt="Bot Avatar" className="h-full w-full object-cover" />
+                              <img src={getImageUrl(settings.avatarUrl)} alt="Bot Avatar" className="h-full w-full object-cover" />
                             )
                           ) : (
                             <Bot className="h-3.5 w-3.5 text-slate-600 dark:text-slate-300" />
@@ -645,7 +646,7 @@ export default function WidgetChatPage() {
                       <div className="flex flex-col gap-1 w-full">
                         {mediaUrl && (
                           <div className="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-800 bg-white mb-1 shadow-sm">
-                            <img src={mediaUrl} alt="Bot upload" className="max-h-48 object-cover" />
+                            <img src={getImageUrl(mediaUrl)} alt="Bot upload" className="max-h-48 object-cover" />
                           </div>
                         )}
                         <div
@@ -711,7 +712,7 @@ export default function WidgetChatPage() {
                             dangerouslySetInnerHTML={{ __html: settings.avatarUrl }}
                           />
                         ) : (
-                          <img src={settings.avatarUrl} alt="Bot Avatar" className="h-full w-full object-cover" />
+                          <img src={getImageUrl(settings.avatarUrl)} alt="Bot Avatar" className="h-full w-full object-cover" />
                         )
                       ) : (
                         <Bot className="h-3.5 w-3.5 text-slate-600 dark:text-slate-300" />

@@ -6,6 +6,7 @@ import {
   Users, Bot, BarChart3, MessageSquare, Plus, ArrowRight, 
   Search, Mail, Calendar, Settings, ChevronRight 
 } from "lucide-react";
+import { getImageUrl } from "@/lib/imageHelper";
 
 interface DashboardSummary {
   visitors: number;
@@ -139,7 +140,7 @@ export default function DashboardPage() {
               >
                 <div className="flex items-center gap-3">
                   {bot.avatarUrl ? (
-                    <img src={bot.avatarUrl} alt={bot.name} className="h-11 w-11 rounded-full object-cover border border-slate-100 dark:border-slate-850" />
+                    <img src={getImageUrl(bot.avatarUrl)} alt={bot.name} className="h-11 w-11 rounded-full object-cover border border-slate-100 dark:border-slate-850" />
                   ) : (
                     <div className="flex h-11 w-11 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
                       <Bot className="h-6 w-6" />

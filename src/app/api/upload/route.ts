@@ -36,7 +36,8 @@ export async function POST(request: Request) {
     const filePath = join(uploadDir, uniqueFileName);
     await writeFile(filePath, buffer);
     
-    const relativeUrl = `/uploads/${uniqueFileName}`;
+    const basePath = process.env.NODE_ENV === "production" ? "/chetbot" : "";
+    const relativeUrl = `${basePath}/uploads/${uniqueFileName}`;
     return NextResponse.json({ success: true, url: relativeUrl });
   } catch (error: any) {
     console.error("Upload error:", error);

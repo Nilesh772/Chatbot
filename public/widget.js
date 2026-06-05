@@ -8,9 +8,9 @@
 
   const botId = scriptTag.getAttribute("data-bot-id") || "active";
 
-  // Get hosting server URL
+  // Get hosting server URL (including subdirectory if present)
   const scriptUrl = new URL(scriptTag.src);
-  const serverUrl = scriptUrl.origin;
+  const serverUrl = scriptUrl.href.replace(/\/widget\.js(\?.*)?$/, "");
 
   // Configuration settings (will be updated via API fetch)
   let settings = {
@@ -295,7 +295,9 @@
       if (settings.launcherIcon.trim().startsWith("<svg")) {
         launcherHtml = `<div id="chetbot-icon-chat" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:${isBgTransparent ? primaryColor : "#ffffff"};fill:currentColor;">${settings.launcherIcon}</div>`;
       } else {
-        const iconSrc = settings.launcherIcon.startsWith("/") ? `${serverUrl}${settings.launcherIcon}` : settings.launcherIcon;
+        const iconSrc = settings.launcherIcon.startsWith("/") 
+          ? (settings.launcherIcon.startsWith("/chetbot") ? `${scriptUrl.origin}${settings.launcherIcon}` : `${serverUrl}${settings.launcherIcon}`) 
+          : settings.launcherIcon;
         launcherHtml = `<img id="chetbot-icon-chat" src="${iconSrc}" alt="Chat" style="width:${iconSize};height:${iconSize};object-fit:contain;" />`;
       }
     }

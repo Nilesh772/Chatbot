@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Bot, Plus, Trash2, Edit2, Code, Sliders, ExternalLink } from "lucide-react";
+import { getImageUrl } from "@/lib/imageHelper";
 
 interface BotData {
   id: string;
@@ -114,7 +115,7 @@ export default function BotsListPage() {
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex items-center gap-3.5">
                     {bot.avatarUrl ? (
-                      <img src={bot.avatarUrl} alt={bot.name} className="h-12 w-12 rounded-full object-cover border border-slate-100 dark:border-slate-850" />
+                      <img src={getImageUrl(bot.avatarUrl)} alt={bot.name} className="h-12 w-12 rounded-full object-cover border border-slate-100 dark:border-slate-850" />
                     ) : (
                       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400">
                         <Bot className="h-7 w-7" />
