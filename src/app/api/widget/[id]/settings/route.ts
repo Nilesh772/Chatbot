@@ -29,11 +29,18 @@ export async function GET(
       id = activeBot.id;
     }
     
+    const bot = await dbService.getBotById(id);
+    if (!bot) {
+      return NextResponse.json(
+        { error: "Bot not found" },
+        { status: 404, headers: corsHeaders }
+      );
+    }
+
     // Track visitor analytics metric
-    await dbService.trackAnalytics(id, "visitor", 1);
+    await dbService.trackAnalytics((bot as any).accountId || "acc-super-admin", id, "visitor", 1);
 
     const settings = await dbService.getWidgetSettings(id);
-    const bot = await dbService.getBotById(id);
 
     if (!settings || !bot) {
       return NextResponse.json(

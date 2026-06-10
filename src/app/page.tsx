@@ -52,8 +52,8 @@ export default function Home() {
 
   const faqs = [
     {
-      q: "Do I need coding experience to use ChetBot?",
-      a: "No! ChetBot is built entirely for non-technical users. You can create flows, style your chat bubble, and export leads using our graphical interface. You only need to copy and paste one line of script on your website."
+      q: "Do I need coding experience to use ChatBot?",
+      a: "No! ChatBot is built entirely for non-technical users. You can create flows, style your chat bubble, and export leads using our graphical interface. You only need to copy and paste one line of script on your website."
     },
     {
       q: "How does the widget load on my website?",
@@ -120,7 +120,7 @@ export default function Home() {
                 <span className="h-3 w-3 rounded-full bg-red-400" />
                 <span className="h-3 w-3 rounded-full bg-yellow-400" />
                 <span className="h-3 w-3 rounded-full bg-green-400" />
-                <span className="text-xs text-slate-400 font-medium ml-2 font-mono">chetbot-editor-canvas</span>
+                <span className="text-xs text-slate-400 font-medium ml-2 font-mono">chatbot-editor-canvas</span>
               </div>
               <div className="flex items-center gap-2 text-xs font-semibold text-indigo-600 dark:text-indigo-400">
                 <Activity className="h-3.5 w-3.5 animate-pulse" />
@@ -412,7 +412,7 @@ export default function Home() {
                 {[...Array(5)].map((_, i) => <Star key={i} className="h-4.5 w-4.5 fill-current" />)}
               </div>
               <p className="text-sm text-slate-600 dark:text-slate-400 italic">
-                "ChetBot saved us thousands in support costs. We set up an onboarding flow in ten minutes, custom-tailored the colors, and embedded it on our Next.js dashboard."
+                "ChatBot saved us thousands in support costs. We set up an onboarding flow in ten minutes, custom-tailored the colors, and embedded it on our Next.js dashboard."
               </p>
               <div className="mt-6 flex items-center gap-3">
                 <div className="h-9 w-9 rounded-full bg-slate-250 bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-600 shrink-0">
@@ -448,7 +448,7 @@ export default function Home() {
                 {[...Array(5)].map((_, i) => <Star key={i} className="h-4.5 w-4.5 fill-current" />)}
               </div>
               <p className="text-sm text-slate-600 dark:text-slate-400 italic">
-                "We needed a lightweight widget for WordPress that didn't drag in jQuery. ChetBot is exactly what we wanted—blazing fast, pure JS, and highly customizable."
+                "We needed a lightweight widget for WordPress that didn't drag in jQuery. ChatBot is exactly what we wanted—blazing fast, pure JS, and highly customizable."
               </p>
               <div className="mt-6 flex items-center gap-3">
                 <div className="h-9 w-9 rounded-full bg-slate-250 bg-indigo-100 flex items-center justify-center text-xs font-bold text-indigo-600 shrink-0">

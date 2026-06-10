@@ -2,11 +2,19 @@
   "users": [
     {
       "id": "usr-admin",
-      "email": "admin@chetbot.com",
+      "email": "admin@chatbot.com",
       "name": "Admin User",
       "password": "adminpassword123",
       "createdAt": "2026-06-03T11:34:48.741Z",
       "updatedAt": "2026-06-03T11:34:48.741Z"
+    },
+    {
+      "id": "usr-hvpezs00f",
+      "email": "nilesh1234@gmail.com",
+      "name": "Nilesh",
+      "password": "123456",
+      "createdAt": "2026-06-10T09:50:22.434Z",
+      "updatedAt": "2026-06-10T09:50:22.434Z"
     }
   ],
   "plans": [
@@ -52,6 +60,14 @@
       "status": "active",
       "currentPeriodStart": "2026-06-03T11:34:48.741Z",
       "currentPeriodEnd": "2026-07-03T11:34:48.741Z"
+    },
+    {
+      "id": "sub-n9qghn7ew",
+      "userId": "usr-hvpezs00f",
+      "planId": "free",
+      "status": "active",
+      "currentPeriodStart": "2026-06-10T09:50:22.434Z",
+      "currentPeriodEnd": "2026-07-10T09:50:22.434Z"
     }
   ],
   "bots": [
@@ -62,7 +78,8 @@
       "avatarUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80&auto=format&fit=crop&q=60",
       "welcomeMessage": "Hi! Welcome to our website. How can I help you today?",
       "createdAt": "2026-06-03T11:45:57.319Z",
-      "updatedAt": "2026-06-03T11:45:57.319Z"
+      "updatedAt": "2026-06-03T11:45:57.319Z",
+      "isActive": true
     },
     {
       "id": "bot-zyym35rim",
@@ -71,7 +88,8 @@
       "avatarUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80&auto=format&fit=crop&q=60",
       "welcomeMessage": "Hi! Welcome to our website. How can I help you today?",
       "createdAt": "2026-06-03T11:46:51.283Z",
-      "updatedAt": "2026-06-03T11:46:51.283Z"
+      "updatedAt": "2026-06-03T11:46:51.283Z",
+      "isActive": false
     },
     {
       "id": "bot-nve82clf4",
@@ -80,7 +98,52 @@
       "avatarUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80&auto=format&fit=crop&q=60",
       "welcomeMessage": "Hi! Welcome to our website. How can I help you today?",
       "createdAt": "2026-06-04T08:25:51.743Z",
-      "updatedAt": "2026-06-04T08:25:51.743Z"
+      "updatedAt": "2026-06-04T08:25:51.743Z",
+      "isActive": false
+    },
+    {
+      "id": "bot-vr5b6av17",
+      "userId": "91d6c59c-22cc-449a-a122-9bb49132e478",
+      "accountId": "acc-super-admin",
+      "name": "213",
+      "avatarUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80&auto=format&fit=crop&q=60",
+      "welcomeMessage": "Hi! Welcome to our website. How can I help you today?",
+      "isActive": true,
+      "createdAt": "2026-06-10T08:20:19.460Z",
+      "updatedAt": "2026-06-10T08:20:19.461Z"
+    },
+    {
+      "id": "bot-dk360v1je",
+      "userId": "91d6c59c-22cc-449a-a122-9bb49132e478",
+      "accountId": "acc-super-admin",
+      "name": "fdsf",
+      "avatarUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80&auto=format&fit=crop&q=60",
+      "welcomeMessage": "Hi! Welcome to our website. How can I help you today?",
+      "isActive": false,
+      "createdAt": "2026-06-10T08:22:01.265Z",
+      "updatedAt": "2026-06-10T08:22:01.265Z"
+    },
+    {
+      "id": "bot-isq2pevwh",
+      "userId": "29167645-9568-4e3b-be15-7f8a742b9338",
+      "accountId": "acc-super-admin",
+      "name": "dfsa",
+      "avatarUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80&auto=format&fit=crop&q=60",
+      "welcomeMessage": "Hi! Welcome to our website. How can I help you today?",
+      "isActive": true,
+      "createdAt": "2026-06-10T08:27:44.712Z",
+      "updatedAt": "2026-06-10T08:27:44.712Z"
+    },
+    {
+      "id": "bot-exfmv3myf",
+      "userId": "29167645-9568-4e3b-be15-7f8a742b9338",
+      "accountId": "acc-super-admin",
+      "name": "4564",
+      "avatarUrl": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=80&auto=format&fit=crop&q=60",
+      "welcomeMessage": "Hi! Welcome to our website. How can I help you today?",
+      "isActive": false,
+      "createdAt": "2026-06-10T08:28:36.799Z",
+      "updatedAt": "2026-06-10T08:28:36.799Z"
     }
   ],
   "flows": [
@@ -105,7 +168,7 @@
           "x": 350,
           "y": 150,
           "data": {
-            "text": "Hello! Welcome to ChetBot. We'd love to help you grow your business. Can we ask a few quick questions?"
+            "text": "Hello! Welcome to ChatBot. We'd love to help you grow your business. Can we ask a few quick questions?"
           }
         },
         {
@@ -268,7 +331,7 @@
           "x": 350,
           "y": 150,
           "data": {
-            "text": "Hello! Welcome to ChetBot. We'd love to help you grow your business. Can we ask a few quick questions?"
+            "text": "Hello! Welcome to ChatBot. We'd love to help you grow your business. Can we ask a few quick questions?"
           }
         },
         {
@@ -445,6 +508,678 @@
       ],
       "createdAt": "2026-06-04T08:25:51.743Z",
       "updatedAt": "2026-06-04T08:25:51.743Z"
+    },
+    {
+      "id": "flow-z7ygb0wqe",
+      "botId": "bot-vr5b6av17",
+      "name": "Main Flow",
+      "isMain": true,
+      "nodes": [
+        {
+          "id": "node-start",
+          "type": "start",
+          "position": {
+            "x": 100,
+            "y": 150
+          },
+          "data": {
+            "label": "Start Flow"
+          }
+        },
+        {
+          "id": "node-1",
+          "type": "message",
+          "position": {
+            "x": 350,
+            "y": 150
+          },
+          "data": {
+            "text": "Hello! Welcome to ChatBot. We'd love to help you grow your business. Can we ask a few quick questions?"
+          }
+        },
+        {
+          "id": "node-2",
+          "type": "button",
+          "position": {
+            "x": 600,
+            "y": 150
+          },
+          "data": {
+            "text": "Are you ready to start?",
+            "options": [
+              "Yes, let's go!",
+              "Maybe later"
+            ]
+          }
+        },
+        {
+          "id": "node-name",
+          "type": "question",
+          "position": {
+            "x": 850,
+            "y": 50
+          },
+          "data": {
+            "text": "Awesome! What's your name?",
+            "variable": "visitor_name",
+            "inputType": "Text"
+          }
+        },
+        {
+          "id": "node-email",
+          "type": "question",
+          "position": {
+            "x": 1100,
+            "y": 50
+          },
+          "data": {
+            "text": "Nice to meet you, {{visitor_name}}! What's your best email address?",
+            "variable": "visitor_email",
+            "inputType": "Email"
+          }
+        },
+        {
+          "id": "node-phone",
+          "type": "question",
+          "position": {
+            "x": 1350,
+            "y": 50
+          },
+          "data": {
+            "text": "Thanks! And what is your phone number?",
+            "variable": "visitor_phone",
+            "inputType": "Phone"
+          }
+        },
+        {
+          "id": "node-success",
+          "type": "message",
+          "position": {
+            "x": 1600,
+            "y": 150
+          },
+          "data": {
+            "text": "Thank you! Our team will reach out to you shortly."
+          }
+        },
+        {
+          "id": "node-later",
+          "type": "message",
+          "position": {
+            "x": 850,
+            "y": 350
+          },
+          "data": {
+            "text": "No worries! If you change your mind, we'll be right here. Have a great day!"
+          }
+        },
+        {
+          "id": "node-end",
+          "type": "end",
+          "position": {
+            "x": 1850,
+            "y": 150
+          },
+          "data": {
+            "label": "End Flow"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-start-1",
+          "source": "node-start",
+          "target": "node-1"
+        },
+        {
+          "id": "e-1-2",
+          "source": "node-1",
+          "target": "node-2"
+        },
+        {
+          "id": "e-2-name",
+          "source": "node-2",
+          "target": "node-name",
+          "sourceHandle": "option-0"
+        },
+        {
+          "id": "e-2-later",
+          "source": "node-2",
+          "target": "node-later",
+          "sourceHandle": "option-1"
+        },
+        {
+          "id": "e-name-email",
+          "source": "node-name",
+          "target": "node-email"
+        },
+        {
+          "id": "e-email-phone",
+          "source": "node-email",
+          "target": "node-phone"
+        },
+        {
+          "id": "e-phone-success",
+          "source": "node-phone",
+          "target": "node-success"
+        },
+        {
+          "id": "e-success-end",
+          "source": "node-success",
+          "target": "node-end"
+        },
+        {
+          "id": "e-later-end",
+          "source": "node-later",
+          "target": "node-end"
+        }
+      ],
+      "createdAt": "2026-06-10T08:20:19.461Z",
+      "updatedAt": "2026-06-10T08:20:19.731Z"
+    },
+    {
+      "id": "flow-cnzmlouwt",
+      "botId": "bot-dk360v1je",
+      "name": "Main Flow",
+      "isMain": true,
+      "nodes": [
+        {
+          "id": "node-start",
+          "type": "start",
+          "position": {
+            "x": 100,
+            "y": 150
+          },
+          "data": {
+            "label": "Start Flow"
+          }
+        },
+        {
+          "id": "node-1",
+          "type": "message",
+          "position": {
+            "x": 350,
+            "y": 150
+          },
+          "data": {
+            "text": "Hello! Welcome to ChatBot. We'd love to help you grow your business. Can we ask a few quick questions?"
+          }
+        },
+        {
+          "id": "node-2",
+          "type": "button",
+          "position": {
+            "x": 600,
+            "y": 150
+          },
+          "data": {
+            "text": "Are you ready to start?",
+            "options": [
+              "Yes, let's go!",
+              "Maybe later"
+            ]
+          }
+        },
+        {
+          "id": "node-name",
+          "type": "question",
+          "position": {
+            "x": 850,
+            "y": 50
+          },
+          "data": {
+            "text": "Awesome! What's your name?",
+            "variable": "visitor_name",
+            "inputType": "Text"
+          }
+        },
+        {
+          "id": "node-email",
+          "type": "question",
+          "position": {
+            "x": 1100,
+            "y": 50
+          },
+          "data": {
+            "text": "Nice to meet you, {{visitor_name}}! What's your best email address?",
+            "variable": "visitor_email",
+            "inputType": "Email"
+          }
+        },
+        {
+          "id": "node-phone",
+          "type": "question",
+          "position": {
+            "x": 1350,
+            "y": 50
+          },
+          "data": {
+            "text": "Thanks! And what is your phone number?",
+            "variable": "visitor_phone",
+            "inputType": "Phone"
+          }
+        },
+        {
+          "id": "node-success",
+          "type": "message",
+          "position": {
+            "x": 1600,
+            "y": 150
+          },
+          "data": {
+            "text": "Thank you! Our team will reach out to you shortly."
+          }
+        },
+        {
+          "id": "node-later",
+          "type": "message",
+          "position": {
+            "x": 850,
+            "y": 350
+          },
+          "data": {
+            "text": "No worries! If you change your mind, we'll be right here. Have a great day!"
+          }
+        },
+        {
+          "id": "node-end",
+          "type": "end",
+          "position": {
+            "x": 1850,
+            "y": 150
+          },
+          "data": {
+            "label": "End Flow"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-start-1",
+          "source": "node-start",
+          "target": "node-1"
+        },
+        {
+          "id": "e-1-2",
+          "source": "node-1",
+          "target": "node-2"
+        },
+        {
+          "id": "e-2-name",
+          "source": "node-2",
+          "target": "node-name",
+          "sourceHandle": "option-0"
+        },
+        {
+          "id": "e-2-later",
+          "source": "node-2",
+          "target": "node-later",
+          "sourceHandle": "option-1"
+        },
+        {
+          "id": "e-name-email",
+          "source": "node-name",
+          "target": "node-email"
+        },
+        {
+          "id": "e-email-phone",
+          "source": "node-email",
+          "target": "node-phone"
+        },
+        {
+          "id": "e-phone-success",
+          "source": "node-phone",
+          "target": "node-success"
+        },
+        {
+          "id": "e-success-end",
+          "source": "node-success",
+          "target": "node-end"
+        },
+        {
+          "id": "e-later-end",
+          "source": "node-later",
+          "target": "node-end"
+        }
+      ],
+      "createdAt": "2026-06-10T08:22:01.265Z",
+      "updatedAt": "2026-06-10T08:22:01.482Z"
+    },
+    {
+      "id": "flow-67qo2g7ti",
+      "botId": "bot-isq2pevwh",
+      "name": "Main Flow",
+      "isMain": true,
+      "nodes": [
+        {
+          "id": "node-start",
+          "type": "start",
+          "position": {
+            "x": 100,
+            "y": 150
+          },
+          "data": {
+            "label": "Start Flow"
+          }
+        },
+        {
+          "id": "node-1",
+          "type": "message",
+          "position": {
+            "x": 350,
+            "y": 150
+          },
+          "data": {
+            "text": "Hello! Welcome to ChatBot. We'd love to help you grow your business. Can we ask a few quick questions?"
+          }
+        },
+        {
+          "id": "node-2",
+          "type": "button",
+          "position": {
+            "x": 600,
+            "y": 150
+          },
+          "data": {
+            "text": "Are you ready to start?",
+            "options": [
+              "Yes, let's go!",
+              "Maybe later"
+            ]
+          }
+        },
+        {
+          "id": "node-name",
+          "type": "question",
+          "position": {
+            "x": 850,
+            "y": 50
+          },
+          "data": {
+            "text": "Awesome! What's your name?",
+            "variable": "visitor_name",
+            "inputType": "Text"
+          }
+        },
+        {
+          "id": "node-email",
+          "type": "question",
+          "position": {
+            "x": 1100,
+            "y": 50
+          },
+          "data": {
+            "text": "Nice to meet you, {{visitor_name}}! What's your best email address?",
+            "variable": "visitor_email",
+            "inputType": "Email"
+          }
+        },
+        {
+          "id": "node-phone",
+          "type": "question",
+          "position": {
+            "x": 1350,
+            "y": 50
+          },
+          "data": {
+            "text": "Thanks! And what is your phone number?",
+            "variable": "visitor_phone",
+            "inputType": "Phone"
+          }
+        },
+        {
+          "id": "node-success",
+          "type": "message",
+          "position": {
+            "x": 1600,
+            "y": 150
+          },
+          "data": {
+            "text": "Thank you! Our team will reach out to you shortly."
+          }
+        },
+        {
+          "id": "node-later",
+          "type": "message",
+          "position": {
+            "x": 850,
+            "y": 350
+          },
+          "data": {
+            "text": "No worries! If you change your mind, we'll be right here. Have a great day!"
+          }
+        },
+        {
+          "id": "node-end",
+          "type": "end",
+          "position": {
+            "x": 1850,
+            "y": 150
+          },
+          "data": {
+            "label": "End Flow"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-start-1",
+          "source": "node-start",
+          "target": "node-1"
+        },
+        {
+          "id": "e-1-2",
+          "source": "node-1",
+          "target": "node-2"
+        },
+        {
+          "id": "e-2-name",
+          "source": "node-2",
+          "target": "node-name",
+          "sourceHandle": "option-0"
+        },
+        {
+          "id": "e-2-later",
+          "source": "node-2",
+          "target": "node-later",
+          "sourceHandle": "option-1"
+        },
+        {
+          "id": "e-name-email",
+          "source": "node-name",
+          "target": "node-email"
+        },
+        {
+          "id": "e-email-phone",
+          "source": "node-email",
+          "target": "node-phone"
+        },
+        {
+          "id": "e-phone-success",
+          "source": "node-phone",
+          "target": "node-success"
+        },
+        {
+          "id": "e-success-end",
+          "source": "node-success",
+          "target": "node-end"
+        },
+        {
+          "id": "e-later-end",
+          "source": "node-later",
+          "target": "node-end"
+        }
+      ],
+      "createdAt": "2026-06-10T08:27:44.712Z",
+      "updatedAt": "2026-06-10T08:27:44.900Z"
+    },
+    {
+      "id": "flow-9hg5x6h02",
+      "botId": "bot-exfmv3myf",
+      "name": "Main Flow",
+      "isMain": true,
+      "nodes": [
+        {
+          "id": "node-start",
+          "type": "start",
+          "position": {
+            "x": 100,
+            "y": 150
+          },
+          "data": {
+            "label": "Start Flow"
+          }
+        },
+        {
+          "id": "node-1",
+          "type": "message",
+          "position": {
+            "x": 350,
+            "y": 150
+          },
+          "data": {
+            "text": "Hello! Welcome to ChatBot. We'd love to help you grow your business. Can we ask a few quick questions?"
+          }
+        },
+        {
+          "id": "node-2",
+          "type": "button",
+          "position": {
+            "x": 600,
+            "y": 150
+          },
+          "data": {
+            "text": "Are you ready to start?",
+            "options": [
+              "Yes, let's go!",
+              "Maybe later"
+            ]
+          }
+        },
+        {
+          "id": "node-name",
+          "type": "question",
+          "position": {
+            "x": 850,
+            "y": 50
+          },
+          "data": {
+            "text": "Awesome! What's your name?",
+            "variable": "visitor_name",
+            "inputType": "Text"
+          }
+        },
+        {
+          "id": "node-email",
+          "type": "question",
+          "position": {
+            "x": 1100,
+            "y": 50
+          },
+          "data": {
+            "text": "Nice to meet you, {{visitor_name}}! What's your best email address?",
+            "variable": "visitor_email",
+            "inputType": "Email"
+          }
+        },
+        {
+          "id": "node-phone",
+          "type": "question",
+          "position": {
+            "x": 1350,
+            "y": 50
+          },
+          "data": {
+            "text": "Thanks! And what is your phone number?",
+            "variable": "visitor_phone",
+            "inputType": "Phone"
+          }
+        },
+        {
+          "id": "node-success",
+          "type": "message",
+          "position": {
+            "x": 1600,
+            "y": 150
+          },
+          "data": {
+            "text": "Thank you! Our team will reach out to you shortly."
+          }
+        },
+        {
+          "id": "node-later",
+          "type": "message",
+          "position": {
+            "x": 850,
+            "y": 350
+          },
+          "data": {
+            "text": "No worries! If you change your mind, we'll be right here. Have a great day!"
+          }
+        },
+        {
+          "id": "node-end",
+          "type": "end",
+          "position": {
+            "x": 1850,
+            "y": 150
+          },
+          "data": {
+            "label": "End Flow"
+          }
+        }
+      ],
+      "edges": [
+        {
+          "id": "e-start-1",
+          "source": "node-start",
+          "target": "node-1"
+        },
+        {
+          "id": "e-1-2",
+          "source": "node-1",
+          "target": "node-2"
+        },
+        {
+          "id": "e-2-name",
+          "source": "node-2",
+          "target": "node-name",
+          "sourceHandle": "option-0"
+        },
+        {
+          "id": "e-2-later",
+          "source": "node-2",
+          "target": "node-later",
+          "sourceHandle": "option-1"
+        },
+        {
+          "id": "e-name-email",
+          "source": "node-name",
+          "target": "node-email"
+        },
+        {
+          "id": "e-email-phone",
+          "source": "node-email",
+          "target": "node-phone"
+        },
+        {
+          "id": "e-phone-success",
+          "source": "node-phone",
+          "target": "node-success"
+        },
+        {
+          "id": "e-success-end",
+          "source": "node-success",
+          "target": "node-end"
+        },
+        {
+          "id": "e-later-end",
+          "source": "node-later",
+          "target": "node-end"
+        }
+      ],
+      "createdAt": "2026-06-10T08:28:36.799Z",
+      "updatedAt": "2026-06-10T08:28:36.992Z"
     }
   ],
   "widgetSettings": [
@@ -480,6 +1215,94 @@
       "launcherIcon": "",
       "launcherBgTransparent": false,
       "launcherIconSize": 28
+    },
+    {
+      "id": "ws-n0x5sujky",
+      "botId": "bot-vr5b6av17",
+      "widgetColor": "#4f46e5",
+      "headerColor": "#4f46e5",
+      "position": "bottom-right",
+      "bubbleStyle": "round",
+      "font": "Inter",
+      "borderRadius": 16,
+      "launcherIcon": "",
+      "launcherBgTransparent": false,
+      "launcherIconSize": 28,
+      "headerTextColor": "#FFFFFF",
+      "leftMessageBgColor": "#F1F5F9",
+      "leftMessageTextColor": "#0F172A",
+      "rightMessageBgColor": "#4F46E5",
+      "rightMessageTextColor": "#FFFFFF",
+      "widgetBgColor": "#FFFFFF",
+      "launcherGreeting": "Hi! Need help? 👋",
+      "launcherGreetingEnabled": true,
+      "launcherAnimation": "bounce"
+    },
+    {
+      "id": "ws-6si8lyxj9",
+      "botId": "bot-dk360v1je",
+      "widgetColor": "#4f46e5",
+      "headerColor": "#4f46e5",
+      "position": "bottom-right",
+      "bubbleStyle": "round",
+      "font": "Inter",
+      "borderRadius": 16,
+      "launcherIcon": "",
+      "launcherBgTransparent": false,
+      "launcherIconSize": 28,
+      "headerTextColor": "#FFFFFF",
+      "leftMessageBgColor": "#F1F5F9",
+      "leftMessageTextColor": "#0F172A",
+      "rightMessageBgColor": "#4F46E5",
+      "rightMessageTextColor": "#FFFFFF",
+      "widgetBgColor": "#FFFFFF",
+      "launcherGreeting": "Hi! Need help? 👋",
+      "launcherGreetingEnabled": true,
+      "launcherAnimation": "bounce"
+    },
+    {
+      "id": "ws-0fou9n1d9",
+      "botId": "bot-isq2pevwh",
+      "widgetColor": "#4f46e5",
+      "headerColor": "#4f46e5",
+      "position": "bottom-right",
+      "bubbleStyle": "round",
+      "font": "Inter",
+      "borderRadius": 16,
+      "launcherIcon": "",
+      "launcherBgTransparent": false,
+      "launcherIconSize": 28,
+      "headerTextColor": "#FFFFFF",
+      "leftMessageBgColor": "#F1F5F9",
+      "leftMessageTextColor": "#0F172A",
+      "rightMessageBgColor": "#4F46E5",
+      "rightMessageTextColor": "#FFFFFF",
+      "widgetBgColor": "#FFFFFF",
+      "launcherGreeting": "Hi! Need help? 👋",
+      "launcherGreetingEnabled": true,
+      "launcherAnimation": "bounce"
+    },
+    {
+      "id": "ws-pxyxbo13a",
+      "botId": "bot-exfmv3myf",
+      "widgetColor": "#4f46e5",
+      "headerColor": "#4f46e5",
+      "position": "bottom-right",
+      "bubbleStyle": "round",
+      "font": "Inter",
+      "borderRadius": 16,
+      "launcherIcon": "",
+      "launcherBgTransparent": false,
+      "launcherIconSize": 28,
+      "headerTextColor": "#FFFFFF",
+      "leftMessageBgColor": "#F1F5F9",
+      "leftMessageTextColor": "#0F172A",
+      "rightMessageBgColor": "#4F46E5",
+      "rightMessageTextColor": "#FFFFFF",
+      "widgetBgColor": "#FFFFFF",
+      "launcherGreeting": "Hi! Need help? 👋",
+      "launcherGreetingEnabled": true,
+      "launcherAnimation": "bounce"
     }
   ],
   "conversations": [
@@ -488,6 +1311,16 @@
       "botId": "2c973663-5a65-4c9d-a6fa-941fe163ea59",
       "sessionId": "sess_l44z0cctl",
       "createdAt": "2026-06-04T08:58:54.097Z"
+    },
+    {
+      "id": "conv-cmt6ozca8",
+      "botId": "9a6f39b3-7a63-4d5b-8136-9412f5d9307b",
+      "sessionId": "sess_r95n9oecw",
+      "status": "bot",
+      "visitorName": "Visitor",
+      "visitorEmail": "",
+      "createdAt": "2026-06-08T12:57:27.693Z",
+      "updatedAt": "2026-06-08T12:57:27.693Z"
     }
   ],
   "messages": [],
@@ -499,6 +1332,440 @@
       "metric": "chat_start",
       "value": 1,
       "createdAt": "2026-06-04T08:58:54.097Z"
+    },
+    {
+      "id": "an-oqga38o5p",
+      "botId": "9a6f39b3-7a63-4d5b-8136-9412f5d9307b",
+      "metric": "visitor",
+      "value": 1,
+      "createdAt": "2026-06-08T12:57:27.444Z"
+    },
+    {
+      "id": "an-chat-start-pe9k2uz9m",
+      "botId": "9a6f39b3-7a63-4d5b-8136-9412f5d9307b",
+      "metric": "chat_start",
+      "value": 1,
+      "createdAt": "2026-06-08T12:57:27.694Z"
+    }
+  ],
+  "agents": [],
+  "departments": [
+    {
+      "id": "dept-general",
+      "accountId": "acc-super-admin",
+      "name": "General Support",
+      "createdAt": "2026-06-09T09:26:20.320Z",
+      "updatedAt": "2026-06-09T09:26:20.320Z"
+    },
+    {
+      "id": "dept-sales",
+      "accountId": "acc-super-admin",
+      "name": "Sales",
+      "createdAt": "2026-06-09T09:26:20.320Z",
+      "updatedAt": "2026-06-09T09:26:20.320Z"
+    },
+    {
+      "id": "dept-billing",
+      "accountId": "acc-super-admin",
+      "name": "Billing",
+      "createdAt": "2026-06-09T09:26:20.320Z",
+      "updatedAt": "2026-06-09T09:26:20.320Z"
+    },
+    {
+      "id": "dept-tech",
+      "accountId": "acc-super-admin",
+      "name": "Technical Support",
+      "createdAt": "2026-06-09T09:26:20.320Z",
+      "updatedAt": "2026-06-09T09:26:20.320Z"
+    }
+  ],
+  "roles": [
+    {
+      "id": "role-super-admin",
+      "name": "Super Admin",
+      "description": "Full platform permissions bypass",
+      "createdAt": "2026-06-09T09:26:20.320Z",
+      "updatedAt": "2026-06-09T09:26:20.320Z"
+    },
+    {
+      "id": "role-admin",
+      "name": "Admin",
+      "description": "Default organization admin",
+      "createdAt": "2026-06-09T09:26:20.320Z",
+      "updatedAt": "2026-06-09T09:26:20.320Z"
+    },
+    {
+      "id": "role-staff",
+      "name": "Staff",
+      "description": "Standard workspace staff",
+      "createdAt": "2026-06-09T09:26:20.320Z",
+      "updatedAt": "2026-06-09T09:26:20.320Z"
+    },
+    {
+      "id": "role-agent",
+      "name": "Agent",
+      "description": "Live chat agent",
+      "createdAt": "2026-06-09T09:26:20.320Z",
+      "updatedAt": "2026-06-09T09:26:20.320Z"
+    }
+  ],
+  "modules": [
+    {
+      "id": "mod-dashboard",
+      "name": "Dashboard",
+      "slug": "/dashboard",
+      "icon": "LayoutDashboard",
+      "sortOrder": 0,
+      "isActive": true
+    },
+    {
+      "id": "mod-bots",
+      "name": "Bots",
+      "slug": "/dashboard/bots",
+      "icon": "Bot",
+      "sortOrder": 1,
+      "isActive": true
+    },
+    {
+      "id": "mod-inbox",
+      "name": "Live Chat",
+      "slug": "/dashboard/inbox",
+      "icon": "MessageSquare",
+      "sortOrder": 2,
+      "isActive": true
+    },
+    {
+      "id": "mod-templates",
+      "name": "Templates",
+      "slug": "/dashboard/templates",
+      "icon": "FileCode",
+      "sortOrder": 3,
+      "isActive": true
+    },
+    {
+      "id": "mod-leads",
+      "name": "Leads",
+      "slug": "/dashboard/leads",
+      "icon": "Users",
+      "sortOrder": 4,
+      "isActive": true
+    },
+    {
+      "id": "mod-analytics",
+      "name": "Analytics",
+      "slug": "/dashboard/analytics",
+      "icon": "BarChart2",
+      "sortOrder": 5,
+      "isActive": true
+    },
+    {
+      "id": "mod-billing",
+      "name": "Billing",
+      "slug": "/dashboard/billing",
+      "icon": "CreditCard",
+      "sortOrder": 6,
+      "isActive": true
+    },
+    {
+      "id": "mod-settings",
+      "name": "Settings",
+      "slug": "/dashboard/settings",
+      "icon": "Settings",
+      "sortOrder": 7,
+      "isActive": true
+    },
+    {
+      "id": "mod-users",
+      "name": "Users",
+      "slug": "/dashboard/users",
+      "icon": "Users",
+      "sortOrder": 8,
+      "isActive": true
+    },
+    {
+      "id": "mod-departments",
+      "name": "Departments",
+      "slug": "/dashboard/departments",
+      "icon": "Building",
+      "sortOrder": 9,
+      "isActive": true
+    },
+    {
+      "id": "mod-roles",
+      "name": "Roles",
+      "slug": "/dashboard/roles",
+      "icon": "Shield",
+      "sortOrder": 10,
+      "isActive": true
+    },
+    {
+      "id": "mod-permissions",
+      "name": "Permissions",
+      "slug": "/dashboard/permissions",
+      "icon": "KeyRound",
+      "sortOrder": 11,
+      "isActive": true
+    }
+  ],
+  "rolePermissions": [
+    {
+      "id": "rp-0",
+      "roleId": "role-admin",
+      "moduleId": "mod-dashboard",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-1",
+      "roleId": "role-admin",
+      "moduleId": "mod-bots",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-2",
+      "roleId": "role-admin",
+      "moduleId": "mod-inbox",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-3",
+      "roleId": "role-admin",
+      "moduleId": "mod-users",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-4",
+      "roleId": "role-admin",
+      "moduleId": "mod-templates",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-5",
+      "roleId": "role-admin",
+      "moduleId": "mod-leads",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-6",
+      "roleId": "role-admin",
+      "moduleId": "mod-analytics",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-7",
+      "roleId": "role-admin",
+      "moduleId": "mod-billing",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-8",
+      "roleId": "role-admin",
+      "moduleId": "mod-settings",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-9",
+      "roleId": "role-admin",
+      "moduleId": "mod-roles",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-10",
+      "roleId": "role-admin",
+      "moduleId": "mod-permissions",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-11",
+      "roleId": "role-agent",
+      "moduleId": "mod-inbox",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    },
+    {
+      "id": "rp-12",
+      "roleId": "role-admin",
+      "moduleId": "mod-departments",
+      "canView": true,
+      "canAdd": true,
+      "canEdit": true,
+      "canDelete": true
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log-il8ssi4xt",
+      "accountId": "acc-super-admin",
+      "userId": "admin@chatbot.com",
+      "action": "LOGIN",
+      "resource": "session",
+      "resourceId": "usr-admin",
+      "ip": "::1",
+      "createdAt": "2026-06-10T06:58:20.942Z"
+    },
+    {
+      "id": "log-9d67u5pfr",
+      "accountId": "acc-super-admin",
+      "userId": "admin@chatbot.com",
+      "action": "LOGIN",
+      "resource": "session",
+      "resourceId": "usr-admin",
+      "ip": "::1",
+      "createdAt": "2026-06-10T06:58:26.769Z"
+    },
+    {
+      "id": "log-yc63zgjo8",
+      "accountId": "acc-super-admin",
+      "userId": "admin@chatbot.com",
+      "action": "LOGOUT",
+      "resource": "session",
+      "resourceId": "usr-admin",
+      "ip": "::1",
+      "createdAt": "2026-06-10T06:59:16.735Z"
+    },
+    {
+      "id": "log-nwpkh262c",
+      "accountId": "acc-super-admin",
+      "userId": "admin@chatbot.com",
+      "action": "LOGOUT",
+      "resource": "session",
+      "resourceId": "usr-admin",
+      "ip": "::1",
+      "createdAt": "2026-06-10T06:59:22.630Z"
+    },
+    {
+      "id": "log-634o0mfgg",
+      "accountId": "acc-super-admin",
+      "userId": "admin@chatbot.com",
+      "action": "LOGOUT",
+      "resource": "session",
+      "resourceId": "usr-admin",
+      "ip": "::1",
+      "createdAt": "2026-06-10T06:59:24.982Z"
+    },
+    {
+      "id": "log-he030fg05",
+      "accountId": "acc-super-admin",
+      "userId": "admin@chatbot.com",
+      "action": "LOGOUT",
+      "resource": "session",
+      "resourceId": "usr-admin",
+      "ip": "::1",
+      "createdAt": "2026-06-10T06:59:24.983Z"
+    },
+    {
+      "id": "log-azk5204od",
+      "accountId": "acc-super-admin",
+      "userId": "nilesh1234@gmail.com",
+      "action": "LOGOUT",
+      "resource": "session",
+      "resourceId": "usr-hvpezs00f",
+      "ip": "::1",
+      "createdAt": "2026-06-10T09:50:59.974Z"
+    },
+    {
+      "id": "log-qnu8oueto",
+      "accountId": "acc-super-admin",
+      "userId": "nilesh1234@gmail.com",
+      "action": "LOGOUT",
+      "resource": "session",
+      "resourceId": "usr-hvpezs00f",
+      "ip": "::1",
+      "createdAt": "2026-06-10T10:22:47.966Z"
+    },
+    {
+      "id": "log-0ykqhw8vv",
+      "accountId": "acc-super-admin",
+      "userId": "nilesh1234@gmail.com",
+      "action": "LOGIN",
+      "resource": "session",
+      "resourceId": "usr-hvpezs00f",
+      "ip": "::1",
+      "createdAt": "2026-06-10T10:23:09.004Z"
+    },
+    {
+      "id": "log-qgavc2es3",
+      "accountId": "acc-super-admin",
+      "userId": "nilesh1234@gmail.com",
+      "action": "LOGIN",
+      "resource": "session",
+      "resourceId": "usr-hvpezs00f",
+      "ip": "::1",
+      "createdAt": "2026-06-10T10:23:13.988Z"
+    },
+    {
+      "id": "log-cati7sbng",
+      "accountId": "acc-super-admin",
+      "userId": "nilesh1234@gmail.com",
+      "action": "LOGOUT",
+      "resource": "session",
+      "resourceId": "usr-hvpezs00f",
+      "ip": "::1",
+      "createdAt": "2026-06-10T10:23:22.086Z"
+    },
+    {
+      "id": "log-jglyma81k",
+      "accountId": "acc-super-admin",
+      "userId": "nilesh1234@gmail.com",
+      "action": "LOGIN",
+      "resource": "session",
+      "resourceId": "usr-hvpezs00f",
+      "ip": "::1",
+      "createdAt": "2026-06-10T10:23:28.774Z"
+    },
+    {
+      "id": "log-zqn6p0o7u",
+      "accountId": "e144667b-1dc9-48a1-8018-562b1c3027a0",
+      "userId": "nilesh1234@gmail.com",
+      "action": "LOGOUT",
+      "resource": "session",
+      "resourceId": "ba12ce48-54f9-4f87-b5c0-17fede8a5308",
+      "ip": "::1",
+      "createdAt": "2026-06-10T10:26:30.407Z"
+    },
+    {
+      "id": "log-3po74tlvh",
+      "accountId": "e144667b-1dc9-48a1-8018-562b1c3027a0",
+      "userId": "nilesh1234@gmail.com",
+      "action": "LOGIN",
+      "resource": "session",
+      "resourceId": "ba12ce48-54f9-4f87-b5c0-17fede8a5308",
+      "ip": "::1",
+      "createdAt": "2026-06-10T10:26:52.842Z"
     }
   ]
 }

@@ -3,12 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/context/AuthContext";
-import { Bot, Mail, Lock, User, ArrowRight, ShieldAlert } from "lucide-react";
+import { Bot, Mail, Lock, User, Building2, ArrowRight, ShieldAlert } from "lucide-react";
 
 export default function RegisterPage() {
   const { register, loading } = useAuth();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [company, setCompany] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
@@ -16,7 +17,7 @@ export default function RegisterPage() {
     e.preventDefault();
     setError("");
     try {
-      await register(email, name, password);
+      await register(email, name, password, company);
     } catch (err: any) {
       setError(err.message || "Registration failed. Choose another email.");
     }
@@ -45,6 +46,23 @@ export default function RegisterPage() {
         )}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
+          {/* Company Name */}
+          <div className="space-y-1">
+            <label className="text-xs font-semibold text-slate-500">Company Name</label>
+            <div className="relative">
+              <Building2 className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <input
+                required
+                type="text"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="Acme Corp"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 pl-10 pr-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Full Name */}
           <div className="space-y-1">
             <label className="text-xs font-semibold text-slate-500">Full Name</label>
             <div className="relative">
@@ -60,6 +78,7 @@ export default function RegisterPage() {
             </div>
           </div>
 
+          {/* Email */}
           <div className="space-y-1">
             <label className="text-xs font-semibold text-slate-500">Email address</label>
             <div className="relative">
@@ -75,6 +94,7 @@ export default function RegisterPage() {
             </div>
           </div>
 
+          {/* Password */}
           <div className="space-y-1">
             <label className="text-xs font-semibold text-slate-500">Password</label>
             <div className="relative">

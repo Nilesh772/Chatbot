@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import { getCurrentUser, getSessionPayload } from "@/lib/auth";
 import { dbService } from "@/lib/dbService";
 
 export async function GET() {
   try {
     const user = await getCurrentUser();
+    const session = await getSessionPayload();
     const isSandbox = await dbService.isSandboxMode();
 
     if (!user) {
@@ -17,6 +18,8 @@ export async function GET() {
         email: user.email,
         name: user.name,
         image: user.image,
+        role: session?.role || "admin",        // expose role to client
+        agentId: session?.agentId || undefined, // expose agentId if agent
       },
       isSandbox,
     });

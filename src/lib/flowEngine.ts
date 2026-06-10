@@ -36,6 +36,16 @@ export const flowEngine = {
         isEnd: true
       };
     }
+    
+    // Stop bot automation if human handover is in progress, active, or closed
+    const convStatus = (conversation as any).status;
+    if (convStatus === "waiting_agent" || convStatus === "active" || convStatus === "closed") {
+      return {
+        messages: [],
+        isEnd: convStatus === "closed"
+      };
+    }
+    
     const messages = conversation.messages || [];
 
     // 2. Get flow (using active flow stored in session variables, or fall back to main flow)
@@ -220,6 +230,26 @@ export const flowEngine = {
       if (node.type === "end") {
         isEnd = true;
         break;
+      }
+
+      if (node.type === "live_agent") {
+        const text = replaceVariables(node.data?.text || "Connecting you with a support representative. Please stand by...", conversation.variables);
+        const department = node.data?.department || "General Support";
+
+        botResponses.push({
+          sender: "bot",
+          text,
+          nodeType: node.type,
+          nodeId: node.id
+        });
+
+        // Update conversation status and department
+        await dbService.updateConversation(conversation.id, {
+          status: "waiting_agent",
+          department
+        });
+
+        break; // Stop bot execution
       }
 
       if (node.type === "message") {

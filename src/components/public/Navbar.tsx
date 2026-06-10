@@ -29,7 +29,7 @@ export default function Navbar() {
             <Bot className="h-6 w-6" />
           </div>
           <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent dark:from-indigo-400 dark:to-violet-400">
-            ChetBot
+            ChatBot
           </span>
         </Link>
 

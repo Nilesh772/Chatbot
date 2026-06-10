@@ -25,7 +25,17 @@ export async function GET(
     }
 
     const conversation = await dbService.findOrCreateConversation(id, sessionId);
-    return NextResponse.json({ messages: conversation?.messages || [] });
+    return NextResponse.json({ 
+      messages: conversation?.messages || [],
+      conversation: {
+        id: conversation?.id,
+        status: conversation?.status,
+        department: conversation?.department,
+        visitorName: conversation?.visitorName,
+        visitorEmail: conversation?.visitorEmail,
+        assignedAgentId: conversation?.assignedAgentId,
+      }
+    });
   } catch (error: any) {
     return NextResponse.json({ error: error.message || "Failed to load chat history" }, { status: 500 });
   }
@@ -73,10 +83,19 @@ export async function POST(
       buttonIndex
     );
 
+    const updatedConv = await dbService.findOrCreateConversation(id, sessionId);
+
     return NextResponse.json({
       success: true,
       messages: flowResult.messages,
       isEnd: flowResult.isEnd,
+      conversation: updatedConv ? {
+        status: updatedConv.status,
+        department: updatedConv.department,
+        visitorName: updatedConv.visitorName,
+        visitorEmail: updatedConv.visitorEmail,
+        assignedAgentId: updatedConv.assignedAgentId,
+      } : undefined
     });
   } catch (error: any) {
     console.error("Chat API error:", error);

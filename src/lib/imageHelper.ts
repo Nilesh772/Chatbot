@@ -5,7 +5,7 @@ export function getImageUrl(url: string | null | undefined): string {
   if (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:")) return url;
   if (url.startsWith("/uploads/")) {
     const isProd = process.env.NODE_ENV === "production";
-    return isProd ? `/chetbot${url}` : url;
+    return isProd ? `/chatbot${url}` : url;
   }
   return url;
 }

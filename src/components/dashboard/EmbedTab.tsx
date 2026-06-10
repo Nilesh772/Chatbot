@@ -10,7 +10,9 @@ export default function EmbedTab({ botId }: { botId: string }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setServerUrl(window.location.origin);
+      const isChatbotSubfolder = window.location.pathname.startsWith("/chatbot");
+      const url = isChatbotSubfolder ? `${window.location.origin}/chatbot` : window.location.origin;
+      setServerUrl(url);
     }
   }, []);
 
@@ -45,7 +47,7 @@ export default function EmbedTab({ botId }: { botId: string }) {
         return `{{-- Paste this in your primary blade layout (e.g., resources/views/layouts/app.blade.php) --}}\n{{-- Put it right before the closing </body> tag --}}\n\n${embedCode}`;
       case "html":
       default:
-        return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Your Website</title>\n</head>\n<body>\n  <!-- Your page contents -->\n\n  <!-- ChetBot Widget script -->\n  ${embedCode}\n</body>\n</html>`;
+        return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Your Website</title>\n</head>\n<body>\n  <!-- Your page contents -->\n\n  <!-- ChatBot Widget script -->\n  ${embedCode}\n</body>\n</html>`;
     }
   };
 

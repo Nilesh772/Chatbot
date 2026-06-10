@@ -12,7 +12,7 @@ export default function Footer() {
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-600 text-white">
                 <Bot className="h-5 w-5" />
               </div>
-              <span className="text-xl font-bold text-white">ChetBot</span>
+              <span className="text-xl font-bold text-white">ChatBot</span>
             </Link>
             <p className="text-sm max-w-xs leading-relaxed text-slate-400">
               The visual drag-and-drop SaaS Chatbot Builder. Design interactive chat agents and deploy them instantly without writing any code.
@@ -96,7 +96,7 @@ export default function Footer() {
 
         {/* Copy bar */}
         <div className="mt-12 border-t border-slate-800 pt-8 flex items-center justify-between text-xs">
-          <p>© {new Date().getFullYear()} ChetBot Inc. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} ChatBot Inc. All rights reserved.</p>
           <p className="text-slate-600">Designed with visual excellence.</p>
         </div>
       </div>

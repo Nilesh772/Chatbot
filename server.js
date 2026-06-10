@@ -1,3 +1,20 @@
+const fs = require('fs');
+const path = require('path');
+
+// Sync custom pre-generated Prisma Client to node_modules on cPanel startup
+try {
+  const src = path.join(__dirname, 'prisma_client');
+  const dest = path.join(__dirname, 'node_modules', '@prisma', 'client');
+  if (fs.existsSync(src)) {
+    console.log(`> Syncing Prisma Client from ${src} to ${dest}...`);
+    fs.mkdirSync(dest, { recursive: true });
+    fs.cpSync(src, dest, { recursive: true, force: true });
+    console.log('> Prisma Client synced successfully!');
+  }
+} catch (e) {
+  console.error('> Error syncing Prisma Client:', e);
+}
+
 const { createServer } = require('http');
 const { parse } = require('url');
 const next = require('next');

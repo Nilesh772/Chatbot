@@ -78,6 +78,7 @@ const nodeTypes = {
   jump_to_flow: CustomNodeComponent,
   redirect: CustomNodeComponent,
   end: CustomNodeComponent,
+  live_agent: CustomNodeComponent,
 };
 
 interface FlowBuilderTabProps {
@@ -99,6 +100,9 @@ export default function FlowBuilderTab({ botId }: FlowBuilderTabProps) {
   const [flows, setFlows] = useState<any[]>([]);
   const [currentFlowId, setCurrentFlowId] = useState<string>("");
 
+  // Departments State
+  const [departments, setDepartments] = useState<any[]>([]);
+
   const loadFlows = useCallback(async (selectFlowId?: string) => {
     try {
       const res = await fetch(`/api/bots/${botId}/flows`);
@@ -119,10 +123,23 @@ export default function FlowBuilderTab({ botId }: FlowBuilderTabProps) {
     }
   }, [botId, setNodes, setEdges]);
 
+  const loadDepartments = useCallback(async () => {
+    try {
+      const res = await fetch("/api/departments");
+      const data = await res.json();
+      if (data.success && data.departments) {
+        setDepartments(data.departments);
+      }
+    } catch (e) {
+      console.error("Failed to load departments:", e);
+    }
+  }, []);
+
   // Load flow configurations on mount
   useEffect(() => {
     loadFlows();
-  }, [loadFlows]);
+    loadDepartments();
+  }, [loadFlows, loadDepartments]);
 
   // Handle new canvas connections
   const onConnect = useCallback(
@@ -263,7 +280,11 @@ export default function FlowBuilderTab({ botId }: FlowBuilderTabProps) {
       data: {
         label: nodeType.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
         type: nodeType,
-        text: ["message", "button", "question"].includes(nodeType) ? "Enter your text here" : undefined,
+        text: ["message", "button", "question"].includes(nodeType)
+          ? "Enter your text here"
+          : nodeType === "live_agent"
+          ? "Connecting you with a support representative. Please stand by..."
+          : undefined,
         options: ["button", "list"].includes(nodeType) ? ["Option 1", "Option 2"] : undefined,
         variable: ["button", "list", "question"].includes(nodeType)
           ? `${nodeType}_output`
@@ -271,6 +292,7 @@ export default function FlowBuilderTab({ botId }: FlowBuilderTabProps) {
         inputType: nodeType === "question" ? "Text" : undefined,
         rules: nodeType === "condition" ? [{ variable: "", operator: "Equals", value: "", label: "Rule 1" }] : undefined,
         flowId: nodeType === "jump_to_flow" ? "" : undefined,
+        department: nodeType === "live_agent" ? (departments[0]?.name || "General Support") : undefined,
       },
     };
 
@@ -521,6 +543,7 @@ export default function FlowBuilderTab({ botId }: FlowBuilderTabProps) {
                 <CatalogButton onClick={() => addNewNode("condition")} color="bg-rose-500" label="Condition" />
                 <CatalogButton onClick={() => addNewNode("jump_to_flow")} color="bg-amber-500" label="Jump to Flow" />
                 <CatalogButton onClick={() => addNewNode("redirect")} color="bg-slate-700" label="Redirect URL" />
+                <CatalogButton onClick={() => addNewNode("live_agent")} color="bg-emerald-600" label="Live Agent" />
                 <CatalogButton onClick={() => addNewNode("end")} color="bg-red-600" label="End Node" />
               </div>
             </div>
@@ -767,6 +790,69 @@ export default function FlowBuilderTab({ botId }: FlowBuilderTabProps) {
                 {selectedNodeType === "end" && (
                   <div className="bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-300 p-4 rounded-xl text-xs leading-relaxed">
                     No styling inputs required. The chatbot will hold dialogue responses and wait for a user action to close here.
+                  </div>
+                )}
+
+                {/* Live Agent Node details */}
+                {selectedNodeType === "live_agent" && (
+                  <div className="space-y-5">
+                    <div className="bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-300 p-4 rounded-xl text-xs leading-relaxed border border-emerald-250 dark:border-emerald-900/50">
+                      <strong>Human Agent Handover:</strong> When the conversation reaches this node, the chatbot automation will stop, and the conversation status will change to <b>Waiting for Agent</b>. A real representative can then accept and reply to this conversation.
+                    </div>
+
+                    <VariableTextarea
+                      label="Message to Visitor (Waiting message)"
+                      value={(selectedNode.data.text as string) || ""}
+                      onChange={handleTextChange}
+                      variables={availableVariables}
+                      placeholder="Connecting you with a support representative. Please stand by..."
+                    />
+
+                    <div className="space-y-2">
+                      <label className="font-semibold text-slate-700 dark:text-slate-300 text-xs block">Assigned Department</label>
+                      <div className="flex gap-2">
+                        <select
+                          value={(selectedNode.data.department as string) || (departments[0]?.name || "General Support")}
+                          onChange={(e) => updateNodeData(selectedNode.id, { department: e.target.value })}
+                          className="flex-1 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all cursor-pointer text-sm"
+                        >
+                          {departments.length > 0 ? (
+                            departments.map((dept: any) => (
+                              <option key={dept.id || dept.name} value={dept.name}>
+                                {dept.name}
+                              </option>
+                            ))
+                          ) : (
+                            <>
+                              <option value="General Support">General Support</option>
+                              <option value="Sales">Sales</option>
+                              <option value="Billing">Billing</option>
+                              <option value="Technical Support">Technical Support</option>
+                            </>
+                          )}
+                          {!!selectedNode.data.department && 
+                            !(departments.length > 0 
+                              ? departments.some((d: any) => d.name === selectedNode.data.department)
+                              : ["General Support", "Sales", "Billing", "Technical Support"].includes(selectedNode.data.department as string)
+                            ) && (
+                              <option value={selectedNode.data.department as string}>
+                                {selectedNode.data.department as string}
+                              </option>
+                            )}
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="font-semibold text-slate-700 dark:text-slate-300 text-xs block">Or Enter Custom Department</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Enterprise Sales"
+                        value={(selectedNode.data.department as string) || ""}
+                        onChange={(e) => updateNodeData(selectedNode.id, { department: e.target.value })}
+                        className="w-full rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 px-4 py-3 outline-none focus:border-indigo-500 transition-all text-sm"
+                      />
+                    </div>
                   </div>
                 )}
 

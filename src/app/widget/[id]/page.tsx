@@ -29,7 +29,7 @@ interface WidgetSettings {
 
 interface ChatMessage {
   id: string;
-  sender: "bot" | "user";
+  sender: "bot" | "user" | "agent";
   text: string;
   payload?: any;
 }
@@ -53,6 +53,14 @@ export default function WidgetChatPage() {
 
   const [settings, setSettings] = useState<WidgetSettings | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [conversation, setConversation] = useState<{
+    id?: string;
+    status?: string;
+    department?: string;
+    visitorName?: string;
+    visitorEmail?: string;
+    assignedAgentId?: string;
+  } | null>(null);
   const [sessionId, setSessionId] = useState<string>("");
   const [inputText, setInputText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -73,7 +81,7 @@ export default function WidgetChatPage() {
   // Load sessions list from localStorage on botId change
   useEffect(() => {
     if (!botId) return;
-    const raw = localStorage.getItem(`chetbot_sessions_${botId}`);
+    const raw = localStorage.getItem(`chatbot_sessions_${botId}`);
     if (raw) {
       try {
         setSessionsList(JSON.parse(raw));
@@ -88,22 +96,22 @@ export default function WidgetChatPage() {
     if (!botId) return;
 
     // Load or create sessionId
-    let sessId = localStorage.getItem(`chetbot_sess_${botId}`);
+    let sessId = localStorage.getItem(`chatbot_sess_${botId}`);
     if (!sessId) {
       sessId = `sess_${Math.random().toString(36).substring(2, 11)}`;
-      localStorage.setItem(`chetbot_sess_${botId}`, sessId);
+      localStorage.setItem(`chatbot_sess_${botId}`, sessId);
     }
     setSessionId(sessId);
 
     // Make sure it is in our sessions list
-    const rawList = localStorage.getItem(`chetbot_sessions_${botId}`);
+    const rawList = localStorage.getItem(`chatbot_sessions_${botId}`);
     let list: any[] = [];
     if (rawList) {
       try { list = JSON.parse(rawList); } catch {}
     }
     if (!list.some(s => s.id === sessId)) {
       list.push({ id: sessId, timestamp: Date.now(), lastMessage: "Current Chat" });
-      localStorage.setItem(`chetbot_sessions_${botId}`, JSON.stringify(list));
+      localStorage.setItem(`chatbot_sessions_${botId}`, JSON.stringify(list));
       setSessionsList(list);
     }
 
@@ -125,6 +133,9 @@ export default function WidgetChatPage() {
     fetch(`/api/widget/${botId}/chat?sessionId=${sessionId}`)
       .then((res) => res.json())
       .then((data) => {
+        if (data.conversation) {
+          setConversation(data.conversation);
+        }
         if (data.messages && data.messages.length > 0) {
           setMessages(data.messages);
           setActiveScreen("chat");
@@ -180,6 +191,37 @@ export default function WidgetChatPage() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
+
+  // 5. Polling for chat messages and status when in chat screen
+  useEffect(() => {
+    if (activeScreen !== "chat" || !botId || !sessionId) return;
+    
+    const interval = setInterval(() => {
+      fetch(`/api/widget/${botId}/chat?sessionId=${sessionId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.messages) {
+            if (data.messages.length !== messages.length) {
+              setMessages(data.messages);
+              if (data.messages.length > 0) {
+                const lastMsg = data.messages[data.messages.length - 1];
+                if (lastMsg.sender === "bot") {
+                  checkAndSetInputNode(lastMsg);
+                } else {
+                  setActiveInputNode(null);
+                }
+              }
+            }
+          }
+          if (data.conversation) {
+            setConversation(data.conversation);
+          }
+        })
+        .catch((err) => console.error("Error polling chat:", err));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [activeScreen, botId, sessionId, messages.length]);
 
   // Check if a message has options, form fields, or captures text input
   const checkAndSetInputNode = (msg: ChatMessage) => {
@@ -251,6 +293,9 @@ export default function WidgetChatPage() {
       });
 
       const data = await response.json();
+      if (data.conversation) {
+        setConversation(data.conversation);
+      }
       if (data.success && data.messages) {
         // Add new bot messages
         const incoming = data.messages.map((m: any) => ({
@@ -290,7 +335,27 @@ export default function WidgetChatPage() {
     if (!inputText.trim()) return;
     const text = inputText;
     setInputText("");
-    triggerNextStep(text);
+
+    if (conversation?.status === "waiting_agent" || conversation?.status === "active") {
+      // Direct messaging with Agent
+      setMessages((prev) => [...prev, { id: `user_${Date.now()}`, sender: "user", text }]);
+      fetch(`/api/widget/${botId}/chat`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId,
+          text
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.conversation) {
+          setConversation(data.conversation);
+        }
+      });
+    } else {
+      triggerNextStep(text);
+    }
   };
 
   // Handle Button / Quick Reply click
@@ -312,7 +377,7 @@ export default function WidgetChatPage() {
 
   const closeWidget = () => {
     if (typeof window !== "undefined") {
-      window.parent.postMessage({ type: "chetbot-close" }, "*");
+      window.parent.postMessage({ type: "chatbot-close" }, "*");
     }
   };
 
@@ -330,7 +395,7 @@ export default function WidgetChatPage() {
         updated.push({ id: sessId, timestamp: Date.now(), lastMessage: lastText });
       }
       const sorted = updated.sort((a, b) => b.timestamp - a.timestamp);
-      localStorage.setItem(`chetbot_sessions_${botId}`, JSON.stringify(sorted));
+      localStorage.setItem(`chatbot_sessions_${botId}`, JSON.stringify(sorted));
       return sorted;
     });
   };
@@ -338,7 +403,7 @@ export default function WidgetChatPage() {
   const handleNewChat = () => {
     if (!botId) return;
     const newSess = `sess_${Math.random().toString(36).substring(2, 11)}`;
-    localStorage.setItem(`chetbot_sess_${botId}`, newSess);
+    localStorage.setItem(`chatbot_sess_${botId}`, newSess);
     setSessionId(newSess);
     setMessages([]);
     setActiveInputNode(null);
@@ -349,7 +414,7 @@ export default function WidgetChatPage() {
       const exists = prev.some(s => s.id === newSess);
       if (exists) return prev;
       const updated = [{ id: newSess, timestamp: Date.now(), lastMessage: "New Conversation" }, ...prev];
-      localStorage.setItem(`chetbot_sessions_${botId}`, JSON.stringify(updated));
+      localStorage.setItem(`chatbot_sessions_${botId}`, JSON.stringify(updated));
       return updated;
     });
 
@@ -359,7 +424,7 @@ export default function WidgetChatPage() {
   const handleRestartChat = handleNewChat;
 
   const loadSession = (selectedSessId: string) => {
-    localStorage.setItem(`chetbot_sess_${botId}`, selectedSessId);
+    localStorage.setItem(`chatbot_sess_${botId}`, selectedSessId);
     setSessionId(selectedSessId);
     setActiveScreen("chat");
   };
@@ -551,7 +616,7 @@ export default function WidgetChatPage() {
 
             {/* Portal Footer */}
             <div className="py-2.5 text-center text-[10px] text-slate-400 dark:text-slate-650 shrink-0">
-              Powered by <span className="font-semibold">ChetBot</span>
+              Powered by <span className="font-semibold">ChatBot</span>
             </div>
           </div>
         ) : (
@@ -577,7 +642,11 @@ export default function WidgetChatPage() {
                   </svg>
                 </button>
                 
-                {settings.avatarUrl ? (
+                {conversation?.status === "waiting_agent" || conversation?.status === "active" ? (
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 border border-white/10 shrink-0 text-white font-bold">
+                    <User className="h-5.5 w-5.5" />
+                  </div>
+                ) : settings.avatarUrl ? (
                   settings.avatarUrl.trim().startsWith("<svg") ? (
                     <div 
                       className="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center border border-white/20 bg-white/10 p-0.5 text-white fill-current shrink-0"
@@ -596,11 +665,22 @@ export default function WidgetChatPage() {
                   </div>
                 )}
                 <div>
-                  <h3 className="font-semibold text-sm leading-tight">{settings.botName}</h3>
-                  <span className="flex items-center gap-1 text-[11px] opacity-80">
-                    <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-                    Online
-                  </span>
+                  <h3 className="font-semibold text-sm leading-tight">
+                    {conversation?.status === "waiting_agent" || conversation?.status === "active"
+                      ? (conversation.status === "active" ? "Live Agent Connected" : "Connecting Agent...")
+                      : settings.botName}
+                  </h3>
+                  <div className="flex items-center gap-1.5 mt-0.5">
+                    <span className="flex items-center gap-1 text-[11px] opacity-80 shrink-0">
+                      <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+                      Online
+                    </span>
+                    {conversation?.department && (
+                      <span className="text-[9px] bg-white/20 px-1.5 py-0.5 rounded border border-white/10 font-bold uppercase tracking-wider scale-90 shrink-0">
+                        {conversation.department}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex items-center gap-1">
@@ -620,16 +700,38 @@ export default function WidgetChatPage() {
             <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 scrollbar-thin">
               {messages.map((msg, i) => {
                 const isBot = msg.sender === "bot";
+                const isUser = msg.sender === "user";
+                const isAgent = msg.sender === "agent";
                 const payload = getPayloadObj(msg.payload);
+                
+                // System events centered
+                const isSystem = isBot && payload?.systemEvent === true;
+                if (isSystem) {
+                  return (
+                    <div key={msg.id || i} className="flex justify-center my-2 animate-slide-up">
+                      <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 bg-slate-100 dark:bg-slate-900 border border-slate-200/50 dark:border-slate-800 px-3 py-1 rounded-lg">
+                        {msg.text}
+                      </span>
+                    </div>
+                  );
+                }
+
                 const mediaUrl = payload?.mediaUrl;
                 const msgOptions = payload?.options;
 
+                // Agent and Bot are aligned left, User is aligned right
+                const alignLeft = isBot || isAgent;
+
                 return (
-                  <div key={msg.id || i} className={`flex ${isBot ? "justify-start" : "justify-end"}`}>
+                  <div key={msg.id || i} className={`flex ${alignLeft ? "justify-start" : "justify-end"}`}>
                     <div className="flex gap-2 max-w-[85%] w-full">
-                      {isBot && (
-                        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
-                          {settings.avatarUrl ? (
+                      {alignLeft && (
+                        <div className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full overflow-hidden ${
+                          isAgent ? "bg-emerald-600 text-white animate-pulse" : "bg-slate-200 dark:bg-slate-800"
+                        }`}>
+                          {isAgent ? (
+                            <User className="h-3.5 w-3.5" />
+                          ) : settings.avatarUrl ? (
                             settings.avatarUrl.trim().startsWith("<svg") ? (
                               <div 
                                 className="h-full w-full flex items-center justify-center p-0.5 text-slate-650 dark:text-slate-350 fill-current"
@@ -643,7 +745,13 @@ export default function WidgetChatPage() {
                           )}
                         </div>
                       )}
+                      
                       <div className="flex flex-col gap-1 w-full">
+                        {isAgent && (
+                          <span className="text-[9px] font-bold text-emerald-650 dark:text-emerald-400 px-1">
+                            Agent Support
+                          </span>
+                        )}
                         {mediaUrl && (
                           <div className="overflow-hidden rounded-lg border border-slate-200 dark:border-slate-800 bg-white mb-1 shadow-sm">
                             <img src={getImageUrl(mediaUrl)} alt="Bot upload" className="max-h-48 object-cover" />
@@ -652,14 +760,16 @@ export default function WidgetChatPage() {
                         <div
                           className={`rounded-2xl px-3.5 py-2.5 text-[13.5px] leading-relaxed shadow-sm flex flex-col overflow-hidden`}
                           style={{
-                            backgroundColor: isBot 
-                              ? (settings.leftMessageBgColor || undefined) 
-                              : (settings.rightMessageBgColor || primaryColor),
-                            color: isBot 
-                              ? (settings.leftMessageTextColor || undefined) 
-                              : (settings.rightMessageTextColor || "#ffffff"),
+                            background: isAgent
+                              ? "linear-gradient(135deg, #10b981 0%, #059669 100%)"
+                              : isUser
+                              ? `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor}ee 100%)`
+                              : (settings.leftMessageBgColor || undefined),
+                            color: isAgent || isUser
+                              ? "#ffffff"
+                              : (settings.leftMessageTextColor || undefined),
                             border: isBot ? "1px solid rgba(0,0,0,0.05)" : undefined,
-                            borderRadius: isBot
+                            borderRadius: alignLeft
                               ? `2px ${settings.borderRadius}px ${settings.borderRadius}px ${settings.borderRadius}px`
                               : `${settings.borderRadius}px ${settings.borderRadius}px 2px ${settings.borderRadius}px`,
                           }}
@@ -671,7 +781,8 @@ export default function WidgetChatPage() {
                             <div className="flex flex-col mt-2.5 -mx-3.5 -mb-2.5 border-t border-slate-200/50 dark:border-slate-800/25 divide-y divide-slate-200/50 dark:divide-slate-800/25">
                               {msgOptions.map((opt: string, idx: number) => {
                                 const isLatestBotMsg = i === messages.length - 1;
-                                const isActive = isLatestBotMsg && activeInputNode && activeInputNode.id === payload?.nodeId && !isTyping;
+                                const isHandoverActive = conversation?.status === "waiting_agent" || conversation?.status === "active" || conversation?.status === "closed";
+                                const isActive = isLatestBotMsg && activeInputNode && activeInputNode.id === payload?.nodeId && !isTyping && !isHandoverActive;
                                 return (
                                   <button
                                     key={idx}
@@ -704,11 +815,11 @@ export default function WidgetChatPage() {
               {isTyping && (
                 <div className="flex justify-start">
                   <div className="flex gap-2 max-w-[85%]">
-                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-850 overflow-hidden">
                       {settings.avatarUrl ? (
                         settings.avatarUrl.trim().startsWith("<svg") ? (
                           <div 
-                            className="h-full w-full flex items-center justify-center p-0.5 text-slate-650 dark:text-slate-350 fill-current"
+                            className="h-full w-full flex items-center justify-center p-0.5 text-slate-655 dark:text-slate-350 fill-current"
                             dangerouslySetInnerHTML={{ __html: settings.avatarUrl }}
                           />
                         ) : (
@@ -733,18 +844,17 @@ export default function WidgetChatPage() {
                   </div>
                 </div>
               )}
-              <div ref={messagesEndRef} />
             </div>
 
             {/* Interactive Options Panels (Forms/Live Agent Handover only, options are inline) */}
-            {activeInputNode && !isTyping && ["form", "live_agent"].includes(activeInputNode.type) && (
-              <div className="px-4 py-2 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-850 space-y-2">
+            {((activeInputNode && !isTyping && ["form", "live_agent"].includes(activeInputNode.type)) || (conversation?.status === "waiting_agent" || conversation?.status === "active")) && (
+              <div className="px-4 py-3 bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-850 space-y-2">
                 {/* Forms Node */}
-                {activeInputNode.type === "form" && activeInputNode.fields && (
+                {activeInputNode?.type === "form" && activeInputNode.fields && (
                   <form onSubmit={handleFormSubmit} className="space-y-2.5 py-1.5 text-xs">
                     {activeInputNode.fields.map((field: any, idx: number) => (
                       <div key={idx} className="space-y-1">
-                        <label className="font-semibold text-slate-600 dark:text-slate-400">
+                        <label className="font-semibold text-slate-655 dark:text-slate-400">
                           {field.label}
                         </label>
                         {field.type === "textarea" ? (
@@ -752,14 +862,14 @@ export default function WidgetChatPage() {
                             required
                             rows={2}
                             onChange={(e) => handleFormChange(field.variable || field.label, e.target.value)}
-                            className="w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-2.5 py-1.5 outline-none focus:border-indigo-500"
+                            className="w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-955 px-2.5 py-1.5 outline-none focus:border-indigo-500"
                           />
                         ) : (
                           <input
                             required
                             type={field.type || "text"}
                             onChange={(e) => handleFormChange(field.variable || field.label, e.target.value)}
-                            className="w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-2.5 py-1.5 outline-none focus:border-indigo-500"
+                            className="w-full rounded-md border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-955 px-2.5 py-1.5 outline-none focus:border-indigo-500"
                           />
                         )}
                       </div>
@@ -775,10 +885,28 @@ export default function WidgetChatPage() {
                 )}
 
                 {/* Live Agent handover banner */}
-                {activeInputNode.type === "live_agent" && (
-                  <div className="flex items-center gap-2 rounded-lg bg-orange-50 dark:bg-orange-950/20 border border-orange-200 dark:border-orange-900/40 p-3 text-orange-800 dark:text-orange-300 text-xs">
-                    <AlertCircle className="h-4 w-4 shrink-0" />
-                    <span>Flow paused. A live representative is checking your chat ticket.</span>
+                {(activeInputNode?.type === "live_agent" || conversation?.status === "waiting_agent" || conversation?.status === "active") && (
+                  <div className={`flex items-center gap-2.5 rounded-2xl border p-3.5 text-xs transition-all duration-300 ${
+                    conversation?.status === "active"
+                      ? "bg-emerald-50/80 dark:bg-emerald-950/20 border-emerald-150 dark:border-emerald-900/35 text-emerald-850 dark:text-emerald-300 shadow-sm"
+                      : "bg-amber-50/80 dark:bg-amber-950/20 border-amber-150 dark:border-amber-900/35 text-amber-850 dark:text-amber-300 shadow-sm animate-pulse"
+                  }`}>
+                    {conversation?.status === "active" ? (
+                      <span className="relative flex h-2 w-2 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                      </span>
+                    ) : (
+                      <span className="relative flex h-2 w-2 shrink-0">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                      </span>
+                    )}
+                    <span className="font-semibold">
+                      {conversation?.status === "active" 
+                        ? "Connected with live support agent." 
+                        : "Connecting with support representative. Please stand by..."}
+                    </span>
                   </div>
                 )}
               </div>
@@ -799,14 +927,16 @@ export default function WidgetChatPage() {
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
                   disabled={
-                    activeInputNode !== null &&
-                    ["form", "live_agent"].includes(activeInputNode.type)
+                    (activeInputNode !== null && ["form"].includes(activeInputNode.type) && conversation?.status !== "waiting_agent" && conversation?.status !== "active") ||
+                    conversation?.status === "closed"
                   }
                   placeholder={
-                    activeInputNode?.type === "question"
+                    conversation?.status === "waiting_agent" || conversation?.status === "active"
+                      ? "Type message to agent..."
+                      : conversation?.status === "closed"
+                      ? "Chat closed..."
+                      : activeInputNode?.type === "question"
                       ? "Type your answer..."
-                      : activeInputNode?.type === "live_agent"
-                      ? "Waiting for agent..."
                       : "Write a message..."
                   }
                   className="flex-1 rounded-full border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-4 py-2 text-[13px] outline-none transition-all focus:border-slate-300 focus:bg-white dark:focus:border-slate-700 dark:focus:bg-slate-900 disabled:opacity-50"
@@ -815,8 +945,8 @@ export default function WidgetChatPage() {
                   type="submit"
                   disabled={
                     !inputText.trim() ||
-                    (activeInputNode !== null &&
-                      ["form", "live_agent"].includes(activeInputNode.type))
+                    (activeInputNode !== null && ["form"].includes(activeInputNode.type) && conversation?.status !== "waiting_agent" && conversation?.status !== "active") ||
+                    conversation?.status === "closed"
                   }
                   className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white shadow-sm transition-all hover:opacity-90 active:scale-95 disabled:bg-slate-200 dark:disabled:bg-slate-800 disabled:text-slate-400"
                   style={{
@@ -824,8 +954,11 @@ export default function WidgetChatPage() {
                       inputText.trim() &&
                       !(
                         activeInputNode !== null &&
-                        ["form", "live_agent"].includes(activeInputNode.type)
-                      )
+                        ["form"].includes(activeInputNode.type) &&
+                        conversation?.status !== "waiting_agent" &&
+                        conversation?.status !== "active"
+                      ) &&
+                      conversation?.status !== "closed"
                         ? primaryColor
                         : undefined,
                   }}
@@ -835,7 +968,7 @@ export default function WidgetChatPage() {
               </form>
               {/* Branding */}
               <div className="mt-1.5 text-center text-[10px] text-slate-400 dark:text-slate-650">
-                Powered by <span className="font-semibold">ChetBot</span>
+                Powered by <span className="font-semibold">ChatBot</span>
               </div>
             </div>
           </div>

@@ -1,8 +1,8 @@
 (function () {
-  // Find ChetBot script tag to read configuration
+  // Find ChatBot script tag to read configuration
   const scriptTag = document.querySelector("script[data-bot-id]") || document.querySelector("script[src*='widget.js']");
   if (!scriptTag) {
-    console.warn("ChetBot script tag not found. Please verify the embed code.");
+    console.warn("ChatBot script tag not found. Please verify the embed code.");
     return;
   }
 
@@ -14,7 +14,7 @@
 
   // Configuration settings (will be updated via API fetch)
   let settings = {
-    botName: "ChetBot",
+    botName: "ChatBot",
     widgetColor: "#4f46e5",
     headerColor: "#4f46e5",
     position: "bottom-right",
@@ -36,7 +36,7 @@
       initWidget();
     })
     .catch((err) => {
-      console.warn("Failed to load ChetBot settings, loading with default style:", err);
+      console.warn("Failed to load ChatBot settings, loading with default style:", err);
       initWidget();
     });
 
@@ -53,16 +53,16 @@
 
     const animationName = settings.launcherAnimation || "bounce";
     let animationClass = "";
-    if (animationName === "bounce") animationClass = "chetbot-animate-bounce";
-    else if (animationName === "wiggle") animationClass = "chetbot-animate-wiggle";
-    else if (animationName === "pulse") animationClass = "chetbot-animate-pulse";
+    if (animationName === "bounce") animationClass = "chatbot-animate-bounce";
+    else if (animationName === "wiggle") animationClass = "chatbot-animate-wiggle";
+    else if (animationName === "pulse") animationClass = "chatbot-animate-pulse";
 
     style.innerHTML = `
-      @keyframes chetbot-bounce {
+      @keyframes chatbot-bounce {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-10px); }
       }
-      @keyframes chetbot-wiggle {
+      @keyframes chatbot-wiggle {
         0%, 100% { transform: rotate(0); }
         15% { transform: rotate(-8deg); }
         30% { transform: rotate(8deg); }
@@ -70,22 +70,22 @@
         60% { transform: rotate(4deg); }
         75% { transform: rotate(0); }
       }
-      @keyframes chetbot-pulse {
+      @keyframes chatbot-pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.06); }
       }
       
-      .chetbot-animate-bounce {
-        animation: chetbot-bounce 2s infinite ease-in-out;
+      .chatbot-animate-bounce {
+        animation: chatbot-bounce 2s infinite ease-in-out;
       }
-      .chetbot-animate-wiggle {
-        animation: chetbot-wiggle 1.5s infinite ease-in-out;
+      .chatbot-animate-wiggle {
+        animation: chatbot-wiggle 1.5s infinite ease-in-out;
       }
-      .chetbot-animate-pulse {
-        animation: chetbot-pulse 2s infinite ease-in-out;
+      .chatbot-animate-pulse {
+        animation: chatbot-pulse 2s infinite ease-in-out;
       }
 
-      #chetbot-widget-container {
+      #chatbot-widget-container {
         position: fixed;
         bottom: 20px;
         ${isRight ? "right: 30px;" : "left: 30px;"}
@@ -93,7 +93,7 @@
         font-family: ${settings.font}, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       }
       
-      #chetbot-bubble-trigger {
+      #chatbot-bubble-trigger {
         position: relative;
         width: 60px;
         height: 60px;
@@ -109,17 +109,17 @@
         outline: none;
       }
       
-      #chetbot-bubble-trigger.open {
+      #chatbot-bubble-trigger.open {
         animation: none !important;
         transform: none !important;
       }
       
-      #chetbot-bubble-trigger:hover {
+      #chatbot-bubble-trigger:hover {
         transform: scale(1.05);
         box-shadow: ${launcherHoverShadow};
       }
 
-      #chetbot-notification-badge {
+      #chatbot-notification-badge {
         position: absolute;
         top: -2px;
         right: -2px;
@@ -139,13 +139,13 @@
         transition: opacity 0.2s, transform 0.2s;
       }
       
-      #chetbot-bubble-trigger.open #chetbot-notification-badge {
+      #chatbot-bubble-trigger.open #chatbot-notification-badge {
         opacity: 0;
         transform: scale(0);
         pointer-events: none;
       }
       
-      #chetbot-launcher-greeting-container {
+      #chatbot-launcher-greeting-container {
         position: absolute;
         bottom: -30px;
         ${isRight ? "right: -30px;" : "left: -30px;"}
@@ -158,12 +158,12 @@
         transform: scale(0.9) translateY(10px);
       }
       
-      #chetbot-launcher-greeting-container.show {
+      #chatbot-launcher-greeting-container.show {
         opacity: 1;
         transform: scale(1) translateY(0);
       }
       
-      #chetbot-greeting-close {
+      #chatbot-greeting-close {
         position: absolute;
         top: 34px;
         right: 12px;
@@ -186,12 +186,12 @@
         z-index: 999999;
       }
       
-      #chetbot-greeting-close:hover {
+      #chatbot-greeting-close:hover {
         background-color: #dc2626;
         transform: scale(1.1);
       }
       
-      #chetbot-bubble-trigger svg, #chetbot-bubble-trigger img, #chetbot-bubble-trigger #chetbot-icon-chat {
+      #chatbot-bubble-trigger svg, #chatbot-bubble-trigger img, #chatbot-bubble-trigger #chatbot-icon-chat {
         width: ${iconSize};
         height: ${iconSize};
         max-width: ${iconSize};
@@ -203,16 +203,16 @@
         justify-content: center;
       }
       
-      #chetbot-bubble-trigger svg {
+      #chatbot-bubble-trigger svg {
         fill: ${isBgTransparent ? primaryColor : "#ffffff"};
         color: ${isBgTransparent ? primaryColor : "#ffffff"};
       }
       
-      #chetbot-bubble-trigger.open svg {
+      #chatbot-bubble-trigger.open svg {
         transform: rotate(90deg);
       }
 
-      #chetbot-chat-window {
+      #chatbot-chat-window {
         position: absolute;
         bottom: 80px;
         ${isRight ? "right: 0;" : "left: 0;"}
@@ -229,14 +229,14 @@
         pointer-events: none;
       }
 
-      #chetbot-chat-window.open {
+      #chatbot-chat-window.open {
         opacity: 1;
         transform: translateY(0) scale(1);
         visibility: visible;
         pointer-events: auto;
       }
 
-      #chetbot-iframe {
+      #chatbot-iframe {
         width: 100%;
         height: 100%;
         border: none;
@@ -244,11 +244,11 @@
       }
 
       @media (max-width: 480px) {
-        #chetbot-widget-container {
+        #chatbot-widget-container {
           bottom: 10px;
           ${isRight ? "right: 10px;" : "left: 10px;"}
         }
-        #chetbot-chat-window {
+        #chatbot-chat-window {
           position: fixed;
           top: 10px;
           left: 10px;
@@ -263,22 +263,22 @@
 
     // Create Widget DOM Elements
     const container = document.createElement("div");
-    container.id = "chetbot-widget-container";
+    container.id = "chatbot-widget-container";
 
     // Chat Window Container
     const chatWindow = document.createElement("div");
-    chatWindow.id = "chetbot-chat-window";
+    chatWindow.id = "chatbot-chat-window";
 
     // Setup Iframe pointing to server's widget route
     const iframe = document.createElement("iframe");
-    iframe.id = "chetbot-iframe";
+    iframe.id = "chatbot-iframe";
     // We pass config like font and color as query parameters so that the iframe can match styling seamlessly
     iframe.src = `${serverUrl}/widget/${botId}?origin=${encodeURIComponent(window.location.origin)}`;
     chatWindow.appendChild(iframe);
 
     // Bubble Trigger Button
     const trigger = document.createElement("button");
-    trigger.id = "chetbot-bubble-trigger";
+    trigger.id = "chatbot-bubble-trigger";
     if (animationClass) {
       trigger.classList.add(animationClass);
     }
@@ -286,28 +286,28 @@
 
     // Icon representing the chat bubble (SVG)
     let launcherHtml = `
-      <svg id="chetbot-icon-chat" viewBox="0 0 24 24">
+      <svg id="chatbot-icon-chat" viewBox="0 0 24 24">
         <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
       </svg>
     `;
 
     if (settings.launcherIcon) {
       if (settings.launcherIcon.trim().startsWith("<svg")) {
-        launcherHtml = `<div id="chetbot-icon-chat" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:${isBgTransparent ? primaryColor : "#ffffff"};fill:currentColor;">${settings.launcherIcon}</div>`;
+        launcherHtml = `<div id="chatbot-icon-chat" style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:${isBgTransparent ? primaryColor : "#ffffff"};fill:currentColor;">${settings.launcherIcon}</div>`;
       } else {
         const iconSrc = settings.launcherIcon.startsWith("/") 
-          ? (settings.launcherIcon.startsWith("/chetbot") ? `${scriptUrl.origin}${settings.launcherIcon}` : `${serverUrl}${settings.launcherIcon}`) 
+          ? (settings.launcherIcon.startsWith("/chatbot") ? `${scriptUrl.origin}${settings.launcherIcon}` : `${serverUrl}${settings.launcherIcon}`) 
           : settings.launcherIcon;
-        launcherHtml = `<img id="chetbot-icon-chat" src="${iconSrc}" alt="Chat" style="width:${iconSize};height:${iconSize};object-fit:contain;" />`;
+        launcherHtml = `<img id="chatbot-icon-chat" src="${iconSrc}" alt="Chat" style="width:${iconSize};height:${iconSize};object-fit:contain;" />`;
       }
     }
 
     trigger.innerHTML = `
       ${launcherHtml}
-      <svg id="chetbot-icon-close" viewBox="0 0 24 24" style="display: none;">
+      <svg id="chatbot-icon-close" viewBox="0 0 24 24" style="display: none;">
         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
       </svg>
-      <div id="chetbot-notification-badge">1</div>
+      <div id="chatbot-notification-badge">1</div>
     `;
 
     container.appendChild(chatWindow);
@@ -316,28 +316,28 @@
     // Render Greeting Tooltip if enabled
     if (settings.launcherGreetingEnabled !== false && settings.launcherGreeting) {
       const greetingBox = document.createElement("div");
-      greetingBox.id = "chetbot-launcher-greeting-container";
+      greetingBox.id = "chatbot-launcher-greeting-container";
       
       const textToDraw = settings.launcherGreeting.toUpperCase();
       
       greetingBox.innerHTML = `
         <svg viewBox="0 0 120 120" style="width: 100%; height: 100%; overflow: visible;">
           <defs>
-            <path id="chetbot-text-path-curve" d="M 15 55 A 45 45 0 0 1 105 55" fill="none" />
+            <path id="chatbot-text-path-curve" d="M 15 55 A 45 45 0 0 1 105 55" fill="none" />
           </defs>
           <!-- Curved text -->
           <text dy="3.5" style="font-family: inherit; font-size: 9.5px; font-weight: 850; letter-spacing: 0.8px; fill: ${primaryColor}; text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff, 0px 2px 4px rgba(0,0,0,0.15);">
-            <textPath href="#chetbot-text-path-curve" startOffset="50%" text-anchor="middle">
+            <textPath href="#chatbot-text-path-curve" startOffset="50%" text-anchor="middle">
               ${textToDraw}
             </textPath>
           </text>
         </svg>
-        <button id="chetbot-greeting-close" aria-label="Close greeting">✕</button>
+        <button id="chatbot-greeting-close" aria-label="Close greeting">✕</button>
       `;
       container.appendChild(greetingBox);
 
       // Close greeting tooltip action
-      const closeGreetingBtn = greetingBox.querySelector("#chetbot-greeting-close");
+      const closeGreetingBtn = greetingBox.querySelector("#chatbot-greeting-close");
       closeGreetingBtn.addEventListener("click", (e) => {
         e.stopPropagation();
         greetingBox.classList.remove("show");
@@ -359,8 +359,8 @@
 
     document.body.appendChild(container);
 
-    const chatIcon = trigger.querySelector("#chetbot-icon-chat");
-    const closeIcon = trigger.querySelector("#chetbot-icon-close");
+    const chatIcon = trigger.querySelector("#chatbot-icon-chat");
+    const closeIcon = trigger.querySelector("#chatbot-icon-close");
 
     let isOpen = false;
 
@@ -386,7 +386,7 @@
     window.addEventListener("message", (event) => {
       if (event.origin !== serverUrl) return;
       
-      if (event.data && event.data.type === "chetbot-close") {
+      if (event.data && event.data.type === "chatbot-close") {
         trigger.click();
       }
     });

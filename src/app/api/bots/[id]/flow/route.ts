@@ -26,10 +26,12 @@ export async function PUT(
     const { nodes, edges, template } = await request.json();
 
     let flow;
+    const existingFlow = await dbService.getFlowByBotId(id);
     if (template) {
-      flow = await dbService.applyFlowTemplate(id, template);
+      if (existingFlow) {
+        flow = await dbService.applyFlowTemplate(existingFlow.id, template);
+      }
     } else {
-      const existingFlow = await dbService.getFlowByBotId(id);
       if (existingFlow) {
         flow = await dbService.updateFlow(existingFlow.id, { nodes: nodes || [], edges: edges || [] });
       }

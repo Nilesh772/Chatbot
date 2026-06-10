@@ -9,16 +9,120 @@ datasource db {
 
 model User {
   id            String         @id @default(uuid())
+  accountId     String         @map("account_id")
+  name          String?
   email         String         @unique
   password      String?
-  name          String?
   image         String?
+  role          String         @default("Agent") // Super Admin, Agent, etc.
+  roleId        String?        @map("role_id")
+  permissions   Json?          // ["bots:view", "bots:manage"]
+  status        String         @default("active")
+  agentStatus   String?        @default("offline") @map("agent_status")
+  departmentId  String?        @map("department_id")
+  schedule      Json?          @map("schedule") // Agent schedule
   createdAt     DateTime       @default(now()) @map("created_at")
   updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  account       Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  roleRelation  Role?          @relation(fields: [roleId], references: [id], onDelete: SetNull)
+  department    Department?    @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  conversations Conversation[]
   bots          Bot[]
   subscriptions Subscription[]
 
   @@map("users")
+}
+
+model Account {
+  id            String         @id @default(uuid())
+  company       String
+  owner         String
+  plan          String         @default("free")
+  status        String         @default("active")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  
+  users         User[]
+  bots          Bot[]
+  leads         Lead[]
+  conversations Conversation[]
+  analytics     Analytics[]
+  auditLogs     AuditLog[]
+  departments   Department[]
+
+  @@map("accounts")
+}
+
+// NEW MODEL: Department
+model Department {
+  id            String         @id @default(uuid())
+  accountId     String         @map("account_id")
+  name          String
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+
+  account       Account        @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  users         User[]
+  conversations Conversation[]
+
+  @@unique([accountId, name]) // Ensures no duplicate department names within the same account
+  @@map("departments")
+}
+
+model Role {
+  id          String           @id @default(uuid())
+  name        String           @unique
+  description String?
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+  permissions RolePermission[]
+  users       User[]
+
+  @@map("roles")
+}
+
+model Module {
+  id          String           @id @default(uuid())
+  name        String
+  slug        String           @unique
+  icon        String?
+  sortOrder   Int              @default(0) @map("sort_order")
+  isActive    Boolean          @default(true) @map("is_active")
+  permissions RolePermission[]
+
+  @@map("modules")
+}
+
+model RolePermission {
+  id        String  @id @default(uuid())
+  roleId    String  @map("role_id")
+  moduleId  String  @map("module_id")
+  canView   Boolean @default(false) @map("can_view")
+  canAdd    Boolean @default(false) @map("can_add")
+  canEdit   Boolean @default(false) @map("can_edit")
+  canDelete Boolean @default(false) @map("can_delete")
+
+  role   Role   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  module Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  @@unique([roleId, moduleId])
+  @@map("role_permissions")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  accountId  String?  @map("account_id")
+  userId     String   @map("user_id") // email or ID
+  action     String
+  resource   String
+  resourceId String?  @map("resource_id")
+  ip         String?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  account    Account? @relation(fields: [accountId], references: [id], onDelete: Cascade)
+
+  @@map("audit_logs")
 }
 
 model Plan {
@@ -49,7 +153,8 @@ model Subscription {
 
 model Bot {
   id             String          @id @default(uuid())
-  userId         String          @map("user_id")
+  accountId      String          @map("account_id")
+  userId         String?         @map("user_id")
   name           String
   avatarUrl      String?         @db.Text @map("avatar_url")
   welcomeMessage String?         @map("welcome_message") @db.Text
@@ -57,7 +162,8 @@ model Bot {
   createdAt      DateTime        @default(now()) @map("created_at")
   updatedAt      DateTime        @updatedAt @map("updated_at")
 
-  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  account        Account         @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  user           User?           @relation(fields: [userId], references: [id], onDelete: SetNull)
   flows          Flow[]
   widgetSettings WidgetSettings?
   conversations  Conversation[]
@@ -83,28 +189,28 @@ model Flow {
 }
 
 model WidgetSettings {
-  id                     String   @id @default(uuid())
-  botId                  String   @unique @map("bot_id")
-  widgetColor            String   @default("#4F46E5") @map("widget_color")
-  headerColor            String   @default("#4F46E5") @map("header_color")
-  position               String   @default("bottom-right") // bottom-right, bottom-left
-  bubbleStyle            String   @default("round") // round, square, icon
-  font                   String   @default("Inter")
-  borderRadius           Int      @default(12) @map("border_radius")
-  launcherIcon           String?  @db.Text @map("launcher_icon")
-  launcherBgTransparent  Boolean  @default(false) @map("launcher_bg_transparent")
-  launcherIconSize       Int      @default(28) @map("launcher_icon_size")
-  headerTextColor        String   @default("#FFFFFF") @map("header_text_color")
-  leftMessageBgColor     String   @default("#F1F5F9") @map("left_message_bg_color")
-  leftMessageTextColor  String   @default("#0F172A") @map("left_message_text_color")
-  rightMessageBgColor    String   @default("#4F46E5") @map("right_message_bg_color")
-  rightMessageTextColor String   @default("#FFFFFF") @map("right_message_text_color")
-  widgetBgColor          String   @default("#FFFFFF") @map("widget_bg_color")
-  launcherGreeting       String   @default("Hi! Need help? 👋") @map("launcher_greeting")
-  launcherGreetingEnabled Boolean @default(true) @map("launcher_greeting_enabled")
-  launcherAnimation      String   @default("bounce") @map("launcher_animation") // bounce, wiggle, pulse, none
-  createdAt              DateTime @default(now()) @map("created_at")
-  updatedAt              DateTime @updatedAt @map("updated_at")
+  id                      String   @id @default(uuid())
+  botId                   String   @unique @map("bot_id")
+  widgetColor             String   @default("#4F46E5") @map("widget_color")
+  headerColor             String   @default("#4F46E5") @map("header_color")
+  position                String   @default("bottom-right") // bottom-right, bottom-left
+  bubbleStyle             String   @default("round") // round, square, icon
+  font                    String   @default("Inter")
+  borderRadius            Int      @default(12) @map("border_radius")
+  launcherIcon            String?  @db.Text @map("launcher_icon")
+  launcherBgTransparent   Boolean  @default(false) @map("launcher_bg_transparent")
+  launcherIconSize        Int      @default(28) @map("launcher_icon_size")
+  headerTextColor         String   @default("#FFFFFF") @map("header_text_color")
+  leftMessageBgColor      String   @default("#F1F5F9") @map("left_message_bg_color")
+  leftMessageTextColor    String   @default("#0F172A") @map("left_message_text_color")
+  rightMessageBgColor     String   @default("#4F46E5") @map("right_message_bg_color")
+  rightMessageTextColor   String   @default("#FFFFFF") @map("right_message_text_color")
+  widgetBgColor           String   @default("#FFFFFF") @map("widget_bg_color")
+  launcherGreeting        String   @default("Hi! Need help? 👋") @map("launcher_greeting")
+  launcherGreetingEnabled Boolean  @default(true) @map("launcher_greeting_enabled")
+  launcherAnimation       String   @default("bounce") @map("launcher_animation") // bounce, wiggle, pulse, none
+  createdAt               DateTime @default(now()) @map("created_at")
+  updatedAt               DateTime @updatedAt @map("updated_at")
 
   bot Bot @relation(fields: [botId], references: [id], onDelete: Cascade)
 
@@ -112,16 +218,28 @@ model WidgetSettings {
 }
 
 model Conversation {
-  id        String    @id @default(uuid())
-  botId     String    @map("bot_id")
-  sessionId String    @map("session_id")
-  variables Json?
-  createdAt DateTime  @default(now()) @map("created_at")
-  updatedAt DateTime  @updatedAt @map("updated_at")
+  id              String    @id @default(uuid())
+  botId           String    @map("bot_id")
+  accountId       String    @map("account_id")
+  sessionId       String    @map("session_id")
+  visitorName     String?   @map("visitor_name")
+  visitorEmail    String?   @map("visitor_email")
+  departmentId    String?   @map("department_id") // UPDATED: Relational field
+  status          String    @default("bot") // bot, waiting_agent, active, closed
+  assignedAgentId String?   @map("assigned_agent_id")
+  startedAt       DateTime? @map("started_at")
+  closedAt        DateTime? @map("closed_at")
+  variables       Json?
+  collaboratorIds Json?     @map("collaborator_ids") // JSON array of agent IDs who joined this conversation
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
 
-  bot      Bot       @relation(fields: [botId], references: [id], onDelete: Cascade)
-  messages Message[]
-  lead     Lead?
+  bot             Bot         @relation(fields: [botId], references: [id], onDelete: Cascade)
+  account         Account     @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  assignedAgent   User?       @relation(fields: [assignedAgentId], references: [id], onDelete: SetNull)
+  department      Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull) // NEW: Relation
+  messages        Message[]
+  lead            Lead?
 
   @@map("conversations")
 }
@@ -142,6 +260,7 @@ model Message {
 model Lead {
   id             String   @id @default(uuid())
   botId          String   @map("bot_id")
+  accountId      String   @map("account_id")
   conversationId String?  @unique @map("conversation_id")
   name           String?
   email          String?
@@ -150,6 +269,7 @@ model Lead {
   createdAt      DateTime @default(now()) @map("created_at")
 
   bot          Bot           @relation(fields: [botId], references: [id], onDelete: Cascade)
+  account      Account       @relation(fields: [accountId], references: [id], onDelete: Cascade)
   conversation Conversation? @relation(fields: [conversationId], references: [id], onDelete: SetNull)
 
   @@map("leads")
@@ -158,12 +278,14 @@ model Lead {
 model Analytics {
   id        String   @id @default(uuid())
   botId     String   @map("bot_id")
+  accountId String   @map("account_id")
   metric    String // visitor, chat_start, lead_conversion, etc.
   value     Int      @default(1)
   metadata  Json? // optional additional info
   createdAt DateTime @default(now()) @map("created_at")
 
-  bot Bot @relation(fields: [botId], references: [id], onDelete: Cascade)
+  bot     Bot     @relation(fields: [botId], references: [id], onDelete: Cascade)
+  account Account @relation(fields: [accountId], references: [id], onDelete: Cascade)
 
   @@map("analytics")
 }

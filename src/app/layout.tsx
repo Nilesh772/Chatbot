@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ChetBot | Visual Drag & Drop Chatbot Flow Builder SaaS",
+  title: "ChatBot | Visual Drag & Drop Chatbot Flow Builder SaaS",
   description: "Build, design, and install custom conversational chatbots on any website without coding. Engage visitors, capture leads, and automate support visually.",
   keywords: "chatbot builder, visual flow editor, lead generation, customer support widget, react flow, no-code chatbot, chat widget embed",
 };

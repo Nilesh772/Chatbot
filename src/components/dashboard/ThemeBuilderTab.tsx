@@ -71,7 +71,7 @@ export default function ThemeBuilderTab({ botId }: { botId: string }) {
   const [success, setSuccess] = useState(false);
 
   // Live preview properties
-  const [botName, setBotName] = useState("ChetBot Helper");
+  const [botName, setBotName] = useState("ChatBot Helper");
   const [welcomeMessage, setWelcomeMessage] = useState("Hello! How can I help you today?");
   const [widgetColor, setWidgetColor] = useState("#4f46e5");
   const [headerColor, setHeaderColor] = useState("#4f46e5");
@@ -141,7 +141,7 @@ export default function ThemeBuilderTab({ botId }: { botId: string }) {
         const data = await res.json();
         if (!data.error) {
           setSettings(data);
-          setBotName(data.botName || "ChetBot Helper");
+          setBotName(data.botName || "ChatBot Helper");
           setWelcomeMessage(data.welcomeMessage || "Hello!");
           setWidgetColor(data.widgetColor || "#4f46e5");
           setHeaderColor(data.headerColor || "#4f46e5");

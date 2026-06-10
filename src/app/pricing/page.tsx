@@ -30,7 +30,7 @@ export default function PricingPage() {
       features: [
         "Unlimited Chatbots",
         "5,000 Chats / month",
-        "Remove ChetBot branding logo",
+        "Remove ChatBot branding logo",
         "Export Leads to CSV & Excel",
         "Advanced Analytics & Funnels",
         "Form Nodes & Live Agent Handovers",

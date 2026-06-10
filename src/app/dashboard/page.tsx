@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { 
-  Users, Bot, BarChart3, MessageSquare, Plus, ArrowRight, 
-  Search, Mail, Calendar, Settings, ChevronRight 
+import {
+  Users, Bot, BarChart3, MessageSquare, Plus, ArrowRight,
+  Search, Mail, Calendar, Settings, ChevronRight
 } from "lucide-react";
 import { getImageUrl } from "@/lib/imageHelper";
 
@@ -67,7 +67,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="p-6 md:p-8 space-y-8 max-w-7xl mx-auto">
+    <div className="p-4 md:p-6 space-y-6 max-w-7xl mx-auto">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -84,8 +84,8 @@ export default function DashboardPage() {
       </div>
 
       {/* Metrics Cards */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
           <div className="flex items-center justify-between text-slate-500">
             <span className="text-xs font-semibold uppercase tracking-wider">Total Visitors</span>
             <Users className="h-5 w-5 text-indigo-500" />
@@ -94,7 +94,7 @@ export default function DashboardPage() {
           <span className="text-[10px] text-green-500 font-semibold mt-1 block">Past 30 days</span>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
           <div className="flex items-center justify-between text-slate-500">
             <span className="text-xs font-semibold uppercase tracking-wider">Chats Started</span>
             <MessageSquare className="h-5 w-5 text-indigo-500" />
@@ -103,7 +103,7 @@ export default function DashboardPage() {
           <span className="text-[10px] text-slate-400 font-semibold mt-1 block">Engagement active</span>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
           <div className="flex items-center justify-between text-slate-500">
             <span className="text-xs font-semibold uppercase tracking-wider">Leads Captured</span>
             <Bot className="h-5 w-5 text-indigo-500" />
@@ -112,7 +112,7 @@ export default function DashboardPage() {
           <span className="text-[10px] text-green-500 font-semibold mt-1 block">Contact info captured</span>
         </div>
 
-        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm">
           <div className="flex items-center justify-between text-slate-500">
             <span className="text-xs font-semibold uppercase tracking-wider">Lead Conv. Rate</span>
             <BarChart3 className="h-5 w-5 text-indigo-500" />
@@ -122,7 +122,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Bots List */}
         <div className="lg:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
@@ -136,7 +136,7 @@ export default function DashboardPage() {
             {bots.map((bot) => (
               <div
                 key={bot.id}
-                className="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                className="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4.5 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div className="flex items-center gap-3">
                   {bot.avatarUrl ? (
@@ -167,7 +167,7 @@ export default function DashboardPage() {
             {/* Empty state creation card */}
             <Link
               href="/dashboard/bots/create"
-              className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-5 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-all min-h-[130px] group"
+              className="rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 p-4.5 flex flex-col items-center justify-center text-center hover:bg-slate-50 dark:hover:bg-slate-900/30 transition-all min-h-[130px] group"
             >
               <Plus className="h-6 w-6 text-slate-400 group-hover:scale-110 transition-transform duration-250 mb-2" />
               <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">Create New Bot</span>

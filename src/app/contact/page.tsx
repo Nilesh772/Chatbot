@@ -44,7 +44,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-sm font-semibold">Email</h4>
-                    <span className="text-xs text-slate-500">support@chetbot.com</span>
+                    <span className="text-xs text-slate-500">support@chatbot.com</span>
                   </div>
                 </div>
                 <div className="flex gap-4 items-center">
@@ -73,7 +73,7 @@ export default function ContactPage() {
                   <Bot className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-sm">Want to test ChetBot right now?</h3>
+                  <h3 className="font-bold text-sm">Want to test ChatBot right now?</h3>
                   <p className="text-xs text-slate-500 mt-0.5">Click the floating chat bubble in the bottom right corner of this page to experience the widget live!</p>
                 </div>
               </div>

@@ -7,7 +7,7 @@ import { User, Lock, Code, Save, Check, Copy } from "lucide-react";
 export default function WorkspaceSettingsPage() {
   const { user } = useAuth();
   const [name, setName] = useState(user?.name || "Sandbox Demo Admin");
-  const [email, setEmail] = useState(user?.email || "admin@chetbot.com");
+  const [email, setEmail] = useState(user?.email || "admin@chatbot.com");
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   

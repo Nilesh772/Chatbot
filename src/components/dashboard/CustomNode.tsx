@@ -21,6 +21,8 @@ interface NodeData {
   inputType?: string;
   rules?: any[];
   flowId?: string;
+  department?: string;
+  waitingMessage?: string;
 }
 
 export default function CustomNode({ id, data, selected, type: flowNodeType }: { id: string; data: NodeData; selected: boolean; type?: string }) {
@@ -97,6 +99,13 @@ export default function CustomNode({ id, data, selected, type: flowNodeType }: {
           headerBg: "bg-amber-600 dark:bg-amber-700",
           border: "border-amber-600 dark:border-amber-700",
         };
+      case "live_agent":
+        return {
+          title: "Live Agent",
+          icon: User,
+          headerBg: "bg-emerald-600 dark:bg-emerald-700",
+          border: "border-emerald-600 dark:border-emerald-700",
+        };
       default:
         return {
           title: "General Node",
@@ -112,7 +121,7 @@ export default function CustomNode({ id, data, selected, type: flowNodeType }: {
   // Determine handle placement
   const showTarget = type !== "start";
   // Button/Quick reply branches handles are rendered per-option below, so we block standard right handle
-  const showStandardSource = type !== "end" && type !== "jump_to_flow" && type !== "button" && type !== "list" && type !== "condition";
+  const showStandardSource = type !== "end" && type !== "jump_to_flow" && type !== "button" && type !== "list" && type !== "condition" && type !== "live_agent";
 
   // Edit handler — opens the right-side config panel using the real node from the nodes array
   const handleEdit = (e: React.MouseEvent) => {
@@ -211,7 +220,7 @@ export default function CustomNode({ id, data, selected, type: flowNodeType }: {
         {type === "end" && <p className="text-slate-400 italic">Conversation terminates here.</p>}
 
         {/* Message preview */}
-        {["message", "button", "question"].includes(type) && (
+        {["message", "button", "question", "live_agent"].includes(type) && (
           <p className="text-slate-700 dark:text-slate-300 font-medium break-words whitespace-pre-wrap mb-2">
             {typeof data.text === "string" ? data.text : <span className="text-slate-400 italic">"No text written..."</span>}
           </p>
@@ -305,6 +314,15 @@ export default function CustomNode({ id, data, selected, type: flowNodeType }: {
                 </div>
               );
             })()}
+          </div>
+        )}
+
+        {type === "live_agent" && (
+          <div>
+            <span className="text-slate-400 block font-semibold">Department:</span>
+            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900 rounded px-2 py-0.5 mt-1 inline-block">
+              {data.department || "General Support"}
+            </span>
           </div>
         )}
       </div>

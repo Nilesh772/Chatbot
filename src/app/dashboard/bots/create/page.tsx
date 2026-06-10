@@ -1,12 +1,15 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Bot, Sparkles, Check, Users, MessageSquare, Calendar, Palette } from "lucide-react";
 
-export default function CreateBotWizardPage() {
+function CreateBotWizardForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const templateParam = searchParams.get("template");
+
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [welcomeMessage, setWelcomeMessage] = useState("Hi! Welcome to our website. How can I help you today?");
@@ -37,7 +40,7 @@ export default function CreateBotWizardPage() {
     { id: "support", name: "Customer Support", icon: MessageSquare, desc: "Solve common questions with button routing and live agent handovers." },
     { id: "booking", name: "Appointment Booking", icon: Calendar, desc: "Form-based appointment and scheduling ticket collection." },
   ];
-  const [selectedTemplate, setSelectedTemplate] = useState("lead_gen");
+  const [selectedTemplate, setSelectedTemplate] = useState(templateParam || "lead_gen");
 
   const [loading, setLoading] = useState(false);
 
@@ -298,5 +301,17 @@ export default function CreateBotWizardPage() {
 
       </div>
     </div>
+  );
+}
+
+export default function CreateBotWizardPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex h-[calc(100vh-64px)] items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-indigo-600 border-t-transparent" />
+      </div>
+    }>
+      <CreateBotWizardForm />
+    </Suspense>
   );
 }
